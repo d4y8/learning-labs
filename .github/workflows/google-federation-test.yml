@@ -1,0 +1,37 @@
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  job_id:
+    runs-on: ubuntu-latest
+    # Add "id-token" with the intended permissions.
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    - uses: 'actions/checkout@v4'
+
+    - uses: 'google-github-actions/auth@v2'
+      with:
+        # project_id: 'my-project'
+        workload_identity_provider: 'projects/74170354433/locations/global/workloadIdentityPools/blogger-helpxlog/providers/github'
+        service_account: 'helpxlog'
+                                    
+        
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v1'
+
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info'
+
+    - name: 'Get Blogger data'
+      run: |
+        ACCESS_TOKEN=$(gcloud auth print-access-token)
+        curl -H "Authorization: Bearer $ACCESS_TOKEN" \
+             "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690/posts" \
+              -d '{"kind": "blogger#post","blog": {"id": "5234182378575703690"},"title": "A new post","content": "With <b>exciting</b> content..."}'
+             
+    # - name: 'get google blogger resource'
+    #   run: |
+    #     curl -vs "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690/posts" -H 'Authorization: Bearer ya29.a0ARW5m76ZtGteL0wW1EhVcr6UiCsLlyCauPq3ihYE6ItKYE9GS1RQpssUOxl2eF5lnjrWxR01hYaE1emt2SEz0RYjeVdv469-R_rQCBsf-1tM04fWk0VERqmplWq_cpNb0zUvzo3fxp5pT9mpxNh-3iCzx0t6PpPFwT-vgaejaCgYKAdISARISFQHGX2MifCFh4wgEvGXElwrDQH1eGw0175' -d '{"kind": "blogger#post","blog": {"id": "5234182378575703690"},"title": "A new post","content": "With <b>exciting</b> content..."}'
