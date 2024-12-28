@@ -17,7 +17,8 @@ jobs:
         # project_id: 'my-project'
         workload_identity_provider: 'projects/74170354433/locations/global/workloadIdentityPools/blogger-helpxlog/providers/github'
         service_account: 'helpxlog'
-        id_token_include_email: 'true'
+        token_format: 'access_token'
+        # id_token_include_email: 'true'
                                     
         
     - name: 'Set up Cloud SDK'
