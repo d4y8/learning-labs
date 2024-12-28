@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: Google Blogger Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
@@ -17,6 +17,7 @@ jobs:
         # project_id: 'my-project'
         workload_identity_provider: 'projects/74170354433/locations/global/workloadIdentityPools/blogger-helpxlog/providers/github'
         service_account: 'helpxlog'
+        id_token_include_email: 'true'
                                     
         
     - name: 'Set up Cloud SDK'
