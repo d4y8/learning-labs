@@ -16,7 +16,7 @@ jobs:
       with:
         # project_id: 'my-project'
         workload_identity_provider: 'projects/74170354433/locations/global/workloadIdentityPools/blogger-helpxlog/providers/github'
-        service_account: 'helpxlog'
+        service_account: 'helpxlog@my-project-1734831833913.iam.gserviceaccount.com'
         token_format: 'access_token'
         # id_token_include_email: 'true'
                                     
