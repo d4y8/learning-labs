@@ -36,12 +36,18 @@ jobs:
     #     gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
     #     gcloud services list
 
-    - name: 'Get Blogger data'
+    - name: 'Get Blogger data by ID'
       run: |
         ACCESS_TOKEN=$(gcloud auth print-access-token)
         echo "access_token: $ACCESS_TOKEN"
         curl -H "Authorization: Bearer $ACCESS_TOKEN" \
              "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690?key=AIzaSyAbNkNtvvShn2Oif0HATo2ndbwfH-sehWY"
+             
+    - name: 'Get Blogger data'
+      run: |
+        ACCESS_TOKEN=$(gcloud auth print-access-token)
+        curl -H "Authorization: Bearer $ACCESS_TOKEN" \
+             "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690/posts"
              
     - name: 'Post Blogger'
       run: |
