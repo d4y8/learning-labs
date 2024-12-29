@@ -29,11 +29,11 @@ jobs:
     # - name: 'Use gcloud CLI'
     #   run: 'gcloud info'
     
-    - id: 'gcloud'
-      name: 'gcloud'
-      run: |-
-        gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
-        gcloud services list
+    # - id: 'gcloud'
+    #   name: 'gcloud'
+    #   run: |-
+    #     gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
+    #     gcloud services list
 
     - name: 'Get Blogger data'
       run: |
