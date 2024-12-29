@@ -32,6 +32,12 @@ jobs:
       run: |
         ACCESS_TOKEN=$(gcloud auth print-access-token)
         curl -H "Authorization: Bearer $ACCESS_TOKEN" \
+             "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690?key=AIzaSyAbNkNtvvShn2Oif0HATo2ndbwfH-sehWY"
+             
+    - name: 'Post Blogger'
+      run: |
+        ACCESS_TOKEN=$(gcloud auth print-access-token)
+        curl -H "Authorization: Bearer $ACCESS_TOKEN" \
              "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690/posts" \
               -d '{"kind": "blogger#post","blog": {"id": "5234182378575703690"},"title": "A new post","content": "With <b>exciting</b> content..."}'
              
