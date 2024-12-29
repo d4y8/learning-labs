@@ -38,7 +38,7 @@ jobs:
     - name: 'Get Blogger data'
       run: |
         ACCESS_TOKEN=$(gcloud auth print-access-token)
-        echo access_token: $ACCESS_TOKEN
+        echo "access_token: $ACCESS_TOKEN"
         curl -H "Authorization: Bearer $ACCESS_TOKEN" \
              "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690?key=AIzaSyAbNkNtvvShn2Oif0HATo2ndbwfH-sehWY"
              
