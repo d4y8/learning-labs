@@ -22,7 +22,7 @@ jobs:
         access_token_scopes: 'https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/blogger'
         # access_token_subject: 'helpxlog@gmail.com'
         # access_token_scopes: 'https://www.googleapis.com/auth/blogger'
-        # id_token_include_email: 'true'
+        id_token_include_email: 'true'
                                     
     # - name: 'Set up Cloud SDK'
     #   uses: 'google-github-actions/setup-gcloud@v1'
