@@ -1,0 +1,45 @@
+name: Blogger API with WIF
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  blogger-api:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # これが重要！
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
+      - id: auth # 認証ステップ
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: projects/74170354433/locations/global/workloadIdentityPools/blogger-helpxlog/providers/github
+          service_account: helpxlog@my-project-1734831833913.iam.gserviceaccount.com
+      - name: Call Blogger API
+        run: |
+          python -c '
+          import os
+          from googleapiclient.discovery import build
+
+          service = build("blogger", "v3")
+
+          blog_id = os.environ.get("BLOG_ID") # 環境変数からブログIDを取得
+          if not blog_id:
+            print("BLOG_ID environment variable is not set.")
+            exit(1)
+
+          try:
+              results = service.posts().list(blogId=blog_id).execute()
+              print(results)
+          except Exception as e:
+              print(f"Error calling Blogger API: {e}")
+              exit(1)
+          '
+        env:
+          BLOG_ID: ${{ secrets.BLOG_ID }} # GitHub SecretsにブログIDを保存
