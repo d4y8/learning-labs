@@ -1,0 +1,38 @@
+name: Blogger API Action
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  call-blogger-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
+      - name: Set up authentication
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+      - name: Call Blogger API
+        run: |
+          python -c '
+          from googleapiclient.discovery import build
+          from google.oauth2 import service_account
+
+          SCOPES = ["https://www.googleapis.com/auth/blogger"] #必要なスコープを指定
+          SERVICE_ACCOUNT_FILE = "credentials.json" #credentials.jsonは不要。上記authアクションで認証が完了している。
+
+          service = build("blogger", "v3")
+
+          # ブログIDを指定
+          blog_id = "5234182378575703690"
+
+          # 投稿リストを取得する例
+          results = service.posts().list(blogId=blog_id).execute()
+          print(results)
+          '
