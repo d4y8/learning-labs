@@ -1,5 +1,4 @@
-name: Blogger API with WIF
-
+name: WIF検証2
 on:
   push:
     branches: [main]

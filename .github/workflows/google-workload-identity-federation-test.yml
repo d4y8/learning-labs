@@ -1,4 +1,4 @@
-name: Google Blogger Demo
+name: WIF検証
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
