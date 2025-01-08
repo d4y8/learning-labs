@@ -1,4 +1,4 @@
-name: Blogger API Action
+name: Publish to Google Blogger
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
           from google.oauth2 import service_account
 
           SCOPES = ["https://www.googleapis.com/auth/blogger"] #必要なスコープを指定
-          SERVICE_ACCOUNT_FILE = "credentials.json" #credentials.jsonは不要。上記authアクションで認証が完了している。
+          # SERVICE_ACCOUNT_FILE = "credentials.json" #credentials.jsonは不要。上記authアクションで認証が完了している。
 
           service = build("blogger", "v3")
 
