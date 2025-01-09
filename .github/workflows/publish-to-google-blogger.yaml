@@ -34,6 +34,9 @@ jobs:
                 # Bloggerに投稿
 
           python -c '
+          
+          import os
+
           from googleapiclient.discovery import build
           from google.oauth2 import service_account
 
