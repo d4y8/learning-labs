@@ -19,10 +19,20 @@ jobs:
         with:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Call Blogger API
+        env: 
+          BLOG_ID: ${{ secrets.BLOG_ID }}
         run: |
           pwd
           ls -l
-          
+
+          # 変更されたMDファイルを取得
+          # ループ
+            # Blogerに投稿済みかチェック
+              # 投稿済みの場合
+                # Bloggerに投稿
+              # 投稿済みでない場合
+                # Bloggerに投稿
+
           python -c '
           from googleapiclient.discovery import build
           from google.oauth2 import service_account
@@ -33,7 +43,7 @@ jobs:
           service = build("blogger", "v3")
 
           # ブログIDを指定
-          blog_id = "5234182378575703690"
+          blog_id = os.environ.get("BLOG_ID")
 
           # 投稿リストを取得する例
           results = service.posts().list(blogId=blog_id).execute()
