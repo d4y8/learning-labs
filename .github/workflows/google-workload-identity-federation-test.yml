@@ -55,7 +55,8 @@ jobs:
         curl -H "Authorization: Bearer $ACCESS_TOKEN" \
              "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690/posts" \
               -d '{"kind": "blogger#post","blog": {"id": "5234182378575703690"},"title": "A new post","content": "With <b>exciting</b> content..."}'
-             
+         
+              
     # - name: 'get google blogger resource'
     #   run: |
     #     curl -vs "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690/posts" -H 'Authorization: Bearer ya29.a0ARW5m76ZtGteL0wW1EhVcr6UiCsLlyCauPq3ihYE6ItKYE9GS1RQpssUOxl2eF5lnjrWxR01hYaE1emt2SEz0RYjeVdv469-R_rQCBsf-1tM04fWk0VERqmplWq_cpNb0zUvzo3fxp5pT9mpxNh-3iCzx0t6PpPFwT-vgaejaCgYKAdISARISFQHGX2MifCFh4wgEvGXElwrDQH1eGw0175' -d '{"kind": "blogger#post","blog": {"id": "5234182378575703690"},"title": "A new post","content": "With <b>exciting</b> content..."}'

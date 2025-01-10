@@ -18,39 +18,12 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+      - name: Git Diff
+        run: |
+          diff_list=$(git diff --name-only ${{ github.event.before }}..HEAD)
+          echo $diff_list
       - name: Call Blogger API
         env: 
           BLOG_ID: ${{ secrets.BLOG_ID }}
         run: |
-          whoami
-          pwd
-          ls -la .github/script/
           python .github/script/test.py
-
-          # # 変更されたMDファイルを取得
-          # # ループ
-          #   # Blogerに投稿済みかチェック
-          #     # 投稿済みの場合
-          #       # Bloggerに投稿
-          #     # 投稿済みでない場合
-          #       # Bloggerに投稿
-
-          # python -c '
-          
-          # import os
-
-          # from googleapiclient.discovery import build
-          # from google.oauth2 import service_account
-
-          # SCOPES = ["https://www.googleapis.com/auth/blogger"] #必要なスコープを指定
-          # # SERVICE_ACCOUNT_FILE = "credentials.json" #credentials.jsonは不要。上記authアクションで認証が完了している。
-
-          # service = build("blogger", "v3")
-
-          # # ブログIDを指定
-          # blog_id = os.environ.get("BLOG_ID")
-
-          # # 投稿リストを取得する例
-          # results = service.posts().list(blogId=blog_id).execute()
-          # print(results)
-          # '
