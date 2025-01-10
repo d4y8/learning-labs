@@ -22,8 +22,9 @@ jobs:
         env: 
           BLOG_ID: ${{ secrets.BLOG_ID }}
         run: |
+          whoami
           pwd
-          ls -la
+          ls -la .github/script/
           .github/script/test.py
 
           # # 変更されたMDファイルを取得
