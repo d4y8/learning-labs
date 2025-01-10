@@ -24,7 +24,7 @@ jobs:
         run: |
           pwd
           ls -la
-          ./script/test.py
+          .github/script/test.py
 
           # # 変更されたMDファイルを取得
           # # ループ
