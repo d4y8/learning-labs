@@ -33,3 +33,15 @@ https://github.com/google-github-actions/auth
 - GitHub Actionsのワークフロー開発に使うエディタはVSCODEらしいけど、どう使う？？
 - GitHub Actionsの構文理解
 - Pythonの構文理解
+
+
+## エラーになったこと
+### git diff 実行時にエラー
+```log
+fatal: Invalid revision range ef1dd6de85606d4627addee932fd51ba7bff9e7d..HEAD
+Error: Process completed with exit code 128.
+```
+#### 対応
+fetch-depthを2に変更
+fetch-depthのデフォルトは1なので一つ前の情報はfetchされていない。
+https://github.com/actions/checkout
