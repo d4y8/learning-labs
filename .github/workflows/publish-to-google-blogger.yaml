@@ -23,7 +23,7 @@ jobs:
           BLOG_ID: ${{ secrets.BLOG_ID }}
         run: |
           pwd
-          ls -l
+          ls -la
           ./script/test.py
 
           # # 変更されたMDファイルを取得
