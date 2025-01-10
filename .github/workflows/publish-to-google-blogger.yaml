@@ -25,7 +25,7 @@ jobs:
           whoami
           pwd
           ls -la .github/script/
-          .github/script/test.py
+          python .github/script/test.py
 
           # # 変更されたMDファイルを取得
           # # ループ
