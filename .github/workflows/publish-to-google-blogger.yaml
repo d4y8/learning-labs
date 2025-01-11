@@ -3,9 +3,9 @@ name: Publish to Google Blogger
 on:
   push:
     branches: [ main ]
-    paths:
+    paths: # 実行条件の対象ファイルパス
     - '*.md'
-  workflow_dispatch:
+  workflow_dispatch: #手動実行
 
 jobs:
   call-blogger-api:
@@ -31,4 +31,4 @@ jobs:
         env: 
           BLOG_ID: ${{ secrets.BLOG_ID }}
         run: |
-          python .github/script/test.py
+          python .github/scripts/test.py
