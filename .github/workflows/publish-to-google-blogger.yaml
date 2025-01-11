@@ -31,6 +31,7 @@ jobs:
           for file in $diff_list; do
             echo "処理対象ファイルは: $file"
             # pandoc -f markdown -t html --template=mytemplate "$file" > "./docs/article${i}.html"
+            pandoc -f markdown -t html "$file" > $(basename "$file" .md).html
           done
 
           cat 
