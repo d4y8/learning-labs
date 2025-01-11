@@ -1,10 +1,10 @@
 name: Publish to Google Blogger
 
-on:
+on: # 実行タイミング
   push:
     branches: [ main ]
-    paths: # 実行条件の対象ファイルパス
-    - '*.md'
+    # paths: # 実行条件の対象ファイルパス
+    # - '*.md'
   workflow_dispatch: #手動実行
 
 jobs:
@@ -25,8 +25,15 @@ jobs:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Git Diff
         run: |
+          sudo apt-get install -y pandoc
+
           diff_list=$(git diff --name-only ${{ github.event.before }}..HEAD)
-          echo $diff_list
+          for file in $diff_list; do
+            echo "処理対象ファイルは: $file"
+            # pandoc -f markdown -t html --template=mytemplate "$file" > "./docs/article${i}.html"
+          done
+
+          cat 
       - name: Call Blogger API
         env: 
           BLOG_ID: ${{ secrets.BLOG_ID }}
