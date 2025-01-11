@@ -1,0 +1,48 @@
+<h1 id="github-actions">GitHub Actions</h1>
+<p>基本的な<a
+href="https://docs.github.com/ja/actions/about-github-actions">GitHub
+Docs</a></p>
+<h2 id="google-oauth2.0認証-設定手順">Google OAuth2.0認証 設定手順</h2>
+<p><a href="https://developers.google.com/blogger?hl=ja">Blogger API
+Docs</a></p>
+<h3 id="google-cloud">Google Cloud</h3>
+<p>プロジェクトは作成済みであることを前提とする。</p>
+<h3 id="blogger-apiの有効化">Blogger APIの有効化</h3>
+<p>作成したGoogle Cloudプロジェクトで、Blogger APIを有効にします。
+Google Cloud ConsoleのAPIライブラリで「Blogger
+API」を検索し、有効にしてください。 Blogger
+APIの公式ドキュメントに沿って作成することも可能です。</p>
+<h3 id="service-accountの作成">Service Accountの作成</h3>
+<p>GitHub ActionsからBlogger
+APIにアクセスするために、サービスアカウントを作成します。 Google Cloud
+ConsoleのIAMと管理 &gt;
+サービスアカウントで、新しいサービスアカウントを作成します</p>
+<h3 id="キーの作成">キーの作成</h3>
+<p>サービスアカウントの認証に使用するJSON形式のキーファイルを作成します。
+Google Cloud
+Consoleのサービスアカウントの詳細ページで、[鍵]タブを選択し、
+[キーを追加] &gt;
+[新しい鍵を作成]を選択。キーのタイプは[JSON]を選択。</p>
+<h3
+id="githubリポジトリへのシークレット登録">GitHubリポジトリへのシークレット登録</h3>
+<p>作成したサービスアカウントキーの内容を、GitHubリポジトリのシークレットとして登録します。リポジトリの設定
+&gt; Secrets and variables &gt; Actionsで、「New repository
+secret」をクリックし、キーの名前（例:
+GOOGLE_CREDENTIALS）と値（JSONキーファイルの内容）を入力して保存します。</p>
+<h2 id="section"></h2>
+<p>https://github.com/google-github-actions/auth</p>
+<h2 id="todo">TODO</h2>
+<ul>
+<li>GitHub
+Actionsのワークフロー開発に使うエディタはVSCODEらしいけど、どう使う？？</li>
+<li>GitHub Actionsの構文理解</li>
+<li>Pythonの構文理解</li>
+</ul>
+<h2 id="エラーになったこと">エラーになったこと</h2>
+<h3 id="git-diff-実行時にエラー">git diff 実行時にエラー</h3>
+<pre class="log"><code>fatal: Invalid revision range ef1dd6de85606d4627addee932fd51ba7bff9e7d..HEAD
+Error: Process completed with exit code 128.</code></pre>
+<h4 id="対応">対応</h4>
+<p>fetch-depthを2に変更
+fetch-depthのデフォルトは1なので一つ前の情報はfetchされていない。
+https://github.com/actions/checkout</p>

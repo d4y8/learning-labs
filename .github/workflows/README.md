@@ -46,3 +46,5 @@ fetch-depthを2に変更
 fetch-depthのデフォルトは1なので一つ前の情報はfetchされていない。
 https://github.com/actions/checkout
 
+
+<img src="./README-images/image.png" width="80%">
