@@ -29,9 +29,14 @@ jobs:
 
           diff_list=$(git diff --name-only ${{ github.event.before }}..HEAD)
           for file in $diff_list; do
+            if [[ $file != *.md ]]; then
+              continue
+            fi
             echo "処理対象ファイルは: $file"
             # pandoc -f markdown -t html --template=mytemplate "$file" > "./docs/article${i}.html"
             pandoc -f markdown -t html "$file" > $(basename "$file" .md).html
+
+            cat *.html
           done
 
           cat 
