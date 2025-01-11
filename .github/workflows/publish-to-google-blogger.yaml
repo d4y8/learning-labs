@@ -3,6 +3,8 @@ name: Publish to Google Blogger
 on:
   push:
     branches: [ main ]
+    paths:
+    - *.md
 
 jobs:
   call-blogger-api:
