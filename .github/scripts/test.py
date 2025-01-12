@@ -58,6 +58,10 @@ try:
                     }
                 }
 
+                data = {}  # 空の辞書を作成
+                data['content'] = "test"
+                data['title'] = "Title"
+
                 body = json.dumps(data, ensure_ascii=False, indent=4) # JSON文字列に変換
                 print(body)
 
