@@ -45,11 +45,7 @@ try:
             with open(filepath, "r", encoding="utf-8") as file:
                 html_content = file.read()
 
-                data = {}  # 空の辞書を作成
-                data['content'] = html_content
-                data['title'] = "Title"
-
-                data = {
+                body = {
                     "kind": "blogger#page",
                     "content": html_content,
                     "title": "Title"
@@ -85,8 +81,8 @@ try:
                 # body = json.dumps(data, ensure_ascii=False) # JSON文字列に変換
                 # print(body)
 
-                # result = service.posts().insert(blogId=blog_id, body=body).execute()
-                result = service.posts().insert(blogId=blog_id).execute()
+                result = service.posts().insert(blogId=blog_id, body=body).execute()
+                # result = service.posts().insert(blogId=blog_id).execute()
                 print(result)
                 # 例: ファイルの内容をそのまま出力
                 # print(html_content)
