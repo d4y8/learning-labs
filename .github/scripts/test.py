@@ -51,6 +51,13 @@ try:
                 data['content'] = html_content
                 data['title'] = "Title"
 
+                data = {
+                    "message": {
+                        "content": html_content,
+                        "title": "Title"
+                    }
+                }
+
                 body = json.dumps(data, ensure_ascii=False, indent=4) # JSON文字列に変換
                 print(body)
 

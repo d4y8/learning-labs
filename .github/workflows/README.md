@@ -52,3 +52,8 @@ https://github.com/actions/checkout
 
 
 <img src="./README-images/image.png?raw=true" width="80%">
+
+###
+```log
+Error processing html/README.html: <HttpError 400 when requesting https://blogger.googleapis.com/v3/blogs/***/posts?alt=json returned "Invalid JSON payload received. Unknown name "": Root element must be a message.". Details: "[***'message': 'Invalid JSON payload received. Unknown name "": Root element must be a message.', 'reason': 'invalid'***]">
+```
