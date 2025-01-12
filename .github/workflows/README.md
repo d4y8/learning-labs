@@ -25,7 +25,7 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 ### GitHubリポジトリへのシークレット登録
 作成したサービスアカウントキーの内容を、GitHubリポジトリのシークレットとして登録します。リポジトリの設定 > Secrets and variables > Actionsで、「New repository secret」をクリックし、キーの名前（例: GOOGLE_CREDENTIALS）と値（JSONキーファイルの内容）を入力して保存します。
 
-<!-- ##  -->
+## 
 
 https://github.com/google-github-actions/auth
 
