@@ -1,4 +1,6 @@
 import os
+import glob
+import json
 
 from googleapiclient.discovery import build
 
@@ -20,7 +22,50 @@ blog_id = os.environ.get("BLOG_ID")
 #       # Bloggerに投稿
 
 
-# 投稿リストを取得する例
-results = service.posts().list(blogId=blog_id).execute()
+# try:
+#     with open("sample.html, "r", encoding="utf-8") as file:
+#         content = file.read()
+#         print(content)
+# except FileNotFoundError:
+#     print("ファイルが見つかりません。")
+# except UnicodeDecodeError:
+#     print("ファイルのエンコードがUTF-8ではありません。")
 
-print(results)
+
+try:
+    directory = "html"
+    # ディレクトリ内のすべての.htmlファイルをリストアップ
+    html_files = glob.glob(os.path.join(directory, "*.html"))
+
+    if not html_files:
+        print(f"No HTML files found in '{directory}'.")
+        exit
+    for filepath in html_files:
+        try:
+            with open(filepath, "r", encoding="utf-8") as file:
+                html_content = file.read()
+                # HTMLコンテンツに対する処理をここに記述
+                print(f"Processing: {filepath}")
+
+                data = {}  # 空の辞書を作成
+                data['content'] = html_content
+
+                body = json.dumps(data, ensure_ascii=False, indent=4) # JSON文字列に変換
+                print(body)
+
+                result = service.posts().insert(blogId=blog_id, body=body).execute()
+                print(result)
+                # 例: ファイルの内容をそのまま出力
+                # print(html_content)
+        except UnicodeDecodeError:
+            print(f"Error: Encoding error in {filepath}")
+        except Exception as e:
+            print(f"Error processing {filepath}: {e}")
+
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+# # 投稿リストを取得する例
+# results = service.posts().list(blogId=blog_id).execute()
+
+# print(results)

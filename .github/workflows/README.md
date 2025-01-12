@@ -29,6 +29,10 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 
 https://github.com/google-github-actions/auth
 
+
+## md -> html変換
+https://pandoc-doc-ja.readthedocs.io/ja/latest/users-guide.html
+
 ## TODO
 - GitHub Actionsのワークフロー開発に使うエディタはVSCODEらしいけど、どう使う？？
 - GitHub Actionsの構文理解
@@ -47,4 +51,5 @@ fetch-depthのデフォルトは1なので一つ前の情報はfetchされてい
 https://github.com/actions/checkout
 
 
-<img src="./README-images/image.png" width="80%">
+
+<img src="./README-images/image.png?raw=true" width="80%">

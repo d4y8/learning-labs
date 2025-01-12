@@ -28,13 +28,21 @@ jobs:
           sudo apt-get install -y pandoc
 
           diff_list=$(git diff --name-only ${{ github.event.before }}..HEAD)
+          
           for file in $diff_list; do
             if [[ $file != *.md ]]; then
               continue
             fi
-            echo "処理対象ファイルは: $file"
-            # pandoc -f markdown -t html --template=mytemplate "$file" > "./docs/article${i}.html"
-            pandoc -f markdown -t html "$file" > $(basename "$file" .md).html
+            
+            # md -> html変換
+            html_file=$(basename "$file" .md).html
+            pandoc -f markdown -t html "$file" > $html_file
+
+            # img パス置換
+            # ./README-images
+            # ↓
+            # https://github.com/d4y8/learning-labs/blob/main/.github/workflows/README-images
+            sed -i 's/\.\/README-images/https:\/\/github\.com\/d4y8\/learning-labs\/blob\/main\/\.github\/workflows\/README-images/g' $html_file
 
             cat *.html
           done
