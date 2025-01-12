@@ -44,8 +44,6 @@ try:
         try:
             with open(filepath, "r", encoding="utf-8") as file:
                 html_content = file.read()
-                # HTMLコンテンツに対する処理をここに記述
-                print(f"Processing: {filepath}")
 
                 data = {}  # 空の辞書を作成
                 data['content'] = html_content
@@ -84,8 +82,8 @@ try:
                 #     }
 
                 # body = json.dumps(data, ensure_ascii=False, indent=4) # JSON文字列に変換
-                body = json.dumps(data, ensure_ascii=False) # JSON文字列に変換
-                print(body)
+                # body = json.dumps(data, ensure_ascii=False) # JSON文字列に変換
+                # print(body)
 
                 # result = service.posts().insert(blogId=blog_id, body=body).execute()
                 result = service.posts().insert(blogId=blog_id).execute()
