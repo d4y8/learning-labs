@@ -51,5 +51,4 @@ fetch-depthのデフォルトは1なので一つ前の情報はfetchされてい
 https://github.com/actions/checkout
 
 
-
 <img src="./README-images/image.png?raw=true" width="80%">
