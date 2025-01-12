@@ -28,14 +28,16 @@ jobs:
           sudo apt-get install -y pandoc
 
           diff_list=$(git diff --name-only ${{ github.event.before }}..HEAD)
-          
+
+          mkdir html
+          html_dir=html
           for file in $diff_list; do
             if [[ $file != *.md ]]; then
               continue
             fi
             
             # md -> html変換
-            html_file=$(basename "$file" .md).html
+            html_file=$html_dir/$(basename "$file" .md).html
             pandoc -f markdown -t html "$file" > $html_file
 
             # img パス置換
@@ -44,7 +46,7 @@ jobs:
             # https://github.com/d4y8/learning-labs/blob/main/.github/workflows/README-images
             sed -i 's/\.\/README-images/https:\/\/github\.com\/d4y8\/learning-labs\/blob\/main\/\.github\/workflows\/README-images/g' $html_file
 
-            cat *.html
+            cat $html_file
           done
 
           cat 
