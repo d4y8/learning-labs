@@ -1,4 +1,4 @@
-name: Insert Post to Google Blogger
+name: Insert post to Google Blogger
 
 on: # 実行タイミング
   push:
