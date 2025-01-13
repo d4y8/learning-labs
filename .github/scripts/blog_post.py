@@ -31,6 +31,7 @@ try:
                 }
 
                 results = service.posts().list(blogId=blog_id).execute()
+                print(results)
                 # result = service.posts().insert(blogId=blog_id, isDraft=True).execute()
                 # print(result)
 
