@@ -30,10 +30,13 @@ try:
                     "title": "Title"
                 }
 
-                results = service.posts().list(blogId=blog_id).execute()
-                print(results)
-                # result = service.posts().insert(blogId=blog_id, isDraft=True).execute()
-                # print(result)
+                # listは権限あり
+                # results = service.posts().list(blogId=blog_id).execute()
+                # print(results)
+
+                # 403エラー
+                result = service.posts().insert(blogId=blog_id).execute()
+                print(result)
 
         except UnicodeDecodeError:
             print(f"Error: Encoding error in {filepath}")
@@ -42,8 +45,3 @@ try:
 
 except Exception as e:
     print(f"An error occurred: {e}")
-
-# # 投稿リストを取得する例
-# results = service.posts().list(blogId=blog_id).execute()
-
-# print(results)
