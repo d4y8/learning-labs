@@ -1,10 +1,11 @@
-name: Publish to Google Blogger
+name: Insert Post to Google Blogger
 
 on: # 実行タイミング
   push:
-    branches: [ main ]
-    # paths: # 実行条件の対象ファイルパス
-    # - '*.md'
+    branches: 
+    - main
+    paths: # 実行条件の追加
+    - '*.md'
   workflow_dispatch: #手動実行
 
 jobs:
@@ -19,11 +20,7 @@ jobs:
           python-version: '3.13.1'
       - name: Install dependencies
         run: pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
-      - name: Set up authentication
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-      - name: Git Diff
+      - name: Convert Md to HTML
         run: |
           sudo apt-get install -y pandoc
 
@@ -32,26 +29,31 @@ jobs:
           mkdir html
           html_dir=html
           for file in $diff_list; do
-            if [[ $file != *.md ]]; then
+            if [[ ${file} != *.md ]]; then
               continue
             fi
             
             # md -> html変換
-            html_file=$html_dir/$(basename "$file" .md).html
-            pandoc -f markdown -t html "$file" > $html_file
+            html_file=$html_dir/$(basename "${file}" .md).html
+            pandoc -f markdown -t html "${file}" > ${html_file}
 
             # img パス置換
             # ./README-images
             # ↓
             # https://github.com/d4y8/learning-labs/blob/main/.github/workflows/README-images
-            sed -i 's/\.\/README-images/https:\/\/github\.com\/d4y8\/learning-labs\/blob\/main\/\.github\/workflows\/README-images/g' $html_file
+            sed -i 's/\.\/README-images/https:\/\/github\.com\/d4y8\/learning-labs\/blob\/main\/\.github\/workflows\/README-images/g' ${html_file}
 
-            cat $html_file
+            cat ${html_file}
           done
 
-          cat 
+      - name: Set up authentication
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
       - name: Call Blogger API
         env: 
           BLOG_ID: ${{ secrets.BLOG_ID }}
         run: |
-          python .github/scripts/test.py
+          python .github/scripts/blog_post.py
+          exit $?

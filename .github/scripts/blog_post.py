@@ -1,6 +1,5 @@
 import os
 import glob
-import json
 
 from googleapiclient.discovery import build
 
@@ -50,32 +49,6 @@ try:
                     "content": html_content,
                     "title": "Title"
                 }
-
-                # data = {}  # 空の辞書を作成
-                # data['content'] = "test"
-                # data['title'] = "Title"
-                # data = {
-                #         "kind": "blogger#page",
-                #         "id": ddd,
-                #         "status": ddd,
-                #         "blog": {
-                #             "id": blog_id
-                #         },
-                #         "published": datetime,
-                #         "updated": datetime,
-                #         "url": ddd,
-                #         "selfLink": ddd,
-                #         "title": ddd,
-                #         "content": ddd,
-                #         "author": {
-                #             "id": ddd,
-                #             "displayName": ddd,
-                #             "url": ddd,
-                #             "image": {
-                #             "url": ddd
-                #             }
-                #         }
-                #     }
 
                 # body = json.dumps(data, ensure_ascii=False, indent=4) # JSON文字列に変換
                 # body = json.dumps(data, ensure_ascii=False) # JSON文字列に変換
