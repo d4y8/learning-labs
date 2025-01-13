@@ -31,10 +31,10 @@ try:
                 }
 
                 # listは権限あり
-                # results = service.posts().list(blogId=blog_id).execute()
-                # print(results)
+                results = service.posts().list(blogId=blog_id).execute()
+                print(results)
 
-                # 403エラー
+                # insertは403エラー
                 result = service.posts().insert(blogId=blog_id).execute()
                 print(result)
 
