@@ -56,4 +56,10 @@ jobs:
         env: 
           BLOG_ID: ${{ secrets.BLOG_ID }}
         run: |
-          python .github/scripts/blog_post.py
+          python .github/scripts/blog_post-oauth.py
+          
+      # - name: Call Blogger API
+      #   env: 
+      #     BLOG_ID: ${{ secrets.BLOG_ID }}
+      #   run: |
+      #     python .github/scripts/blog_post.py
