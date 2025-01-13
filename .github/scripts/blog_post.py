@@ -3,33 +3,13 @@ import glob
 
 from googleapiclient.discovery import build
 
-SCOPES = ["https://www.googleapis.com/auth/blogger"] #必要なスコープを指定
-# SERVICE_ACCOUNT_FILE = "credentials.json" #credentials.jsonは不要。上記authアクションで認証が完了している。
+#必要なスコープを指定
+# SCOPES = ["https://www.googleapis.com/auth/blogger"] 
 
 service = build("blogger", "v3")
 
 # ブログIDを指定
 blog_id = os.environ.get("BLOG_ID")
-
-
-# # 変更されたMDファイルを取得
-# # ループ
-#   # Blogerに投稿済みかチェック
-#     # 投稿済みの場合
-#       # Bloggerに投稿
-#     # 投稿済みでない場合
-#       # Bloggerに投稿
-
-
-# try:
-#     with open("sample.html, "r", encoding="utf-8") as file:
-#         content = file.read()
-#         print(content)
-# except FileNotFoundError:
-#     print("ファイルが見つかりません。")
-# except UnicodeDecodeError:
-#     print("ファイルのエンコードがUTF-8ではありません。")
-
 
 try:
     directory = "html"
@@ -50,16 +30,9 @@ try:
                     "title": "Title"
                 }
 
-                # body = json.dumps(data, ensure_ascii=False, indent=4) # JSON文字列に変換
-                # body = json.dumps(data, ensure_ascii=False) # JSON文字列に変換
-                # print(body)
-
-                # result = service.posts().insert(blogId=blog_id, body=body).execute()
-                # result = service.posts().insert(blogId=blog_id).execute()
                 result = service.posts().insert(blogId=blog_id, isDraft=True).execute()
                 print(result)
-                # 例: ファイルの内容をそのまま出力
-                # print(html_content)
+                
         except UnicodeDecodeError:
             print(f"Error: Encoding error in {filepath}")
         except Exception as e:

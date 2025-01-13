@@ -56,4 +56,3 @@ jobs:
           BLOG_ID: ${{ secrets.BLOG_ID }}
         run: |
           python .github/scripts/blog_post.py
-          exit $?
