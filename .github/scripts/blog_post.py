@@ -30,9 +30,10 @@ try:
                     "title": "Title"
                 }
 
-                result = service.posts().insert(blogId=blog_id, isDraft=True).execute()
-                print(result)
-                
+                results = service.posts().list(blogId=blog_id).execute()
+                # result = service.posts().insert(blogId=blog_id, isDraft=True).execute()
+                # print(result)
+
         except UnicodeDecodeError:
             print(f"Error: Encoding error in {filepath}")
         except Exception as e:
