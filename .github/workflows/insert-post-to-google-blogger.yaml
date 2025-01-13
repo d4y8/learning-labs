@@ -4,8 +4,8 @@ on: # 実行タイミング
   push:
     branches: 
     - main
-    # paths: # 実行条件の追加
-    # - '*.md'
+    paths: # 実行条件の追加
+    - '*.md'
   workflow_dispatch: #手動実行
 
 jobs:
@@ -46,10 +46,10 @@ jobs:
             cat ${html_file}
           done
 
-      # - name: Set up authentication
-      #   uses: google-github-actions/auth@v2
-      #   with:
-      #     credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+      - name: Set up authentication
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
       - name: Call Blogger API
         env: 
