@@ -22,10 +22,12 @@ jobs:
       - name: Install dependencies
         run: pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
       - name: Convert Markdown to HTML
+        env:
+            GITHUB_EVENT_BEFORE: ${{ github.event.before }}
         run: |
           sudo apt-get install -y pandoc
 
-          diff_list=$(git diff --name-only ${{ github.event.before }}..HEAD)
+          diff_list=$(git diff --name-only ${GITHUB_EVENT_BEFORE}..HEAD)
 
           mkdir html
           html_dir=html
