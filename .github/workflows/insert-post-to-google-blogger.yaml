@@ -52,21 +52,8 @@ jobs:
         with:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
-
-      - name: secret output
-        env: 
-          OAUTH_CLIENT_SECRET: ${{ secrets.OAUTH_CLIENT_KEY }}
-        run: |
-          echo $OAUTH_CLIENT_SECRET > client_secrets.json
-
       - name: Call Blogger API
         env: 
           BLOG_ID: ${{ secrets.BLOG_ID }}
         run: |
-          python .github/scripts/blog_post-oauth.py
-
-      # - name: Call Blogger API
-      #   env: 
-      #     BLOG_ID: ${{ secrets.BLOG_ID }}
-      #   run: |
-      #     python .github/scripts/blog_post.py
+          python .github/scripts/blog_post.py
