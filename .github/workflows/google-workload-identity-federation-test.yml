@@ -1,6 +1,8 @@
 name: Workload Identity Federation検証
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on: 
+  push:
+  workflow_dispatch: #手動実行
 jobs:
   job_id:
     runs-on: ubuntu-latest
