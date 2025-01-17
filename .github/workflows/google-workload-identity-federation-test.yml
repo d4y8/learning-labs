@@ -24,6 +24,10 @@ jobs:
         access_token_scopes: 'https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/blogger'
         # id_token_include_email: 'true'
 
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v1'
+      with:
+        version: '>= 379.0.0'
     - name: 'Get Blogger data by ID'
       run: |
         ACCESS_TOKEN=$(gcloud auth print-access-token)
