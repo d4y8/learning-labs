@@ -1,4 +1,4 @@
-name: WIF検証
+name: Workload Identity Federation検証
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
@@ -8,33 +8,19 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-
     steps:
-    - uses: 'actions/checkout@v4'
-
+    - uses: actions/checkout@v4
+      with: 
+        fetch-depth: 2
     - id: 'auth'
       uses: 'google-github-actions/auth@v2'
       with:
         # project_id: 'my-project'
         workload_identity_provider: 'projects/74170354433/locations/global/workloadIdentityPools/blogger-helpxlog/providers/github'
-        service_account: 'helpxlog@my-project-1734831833913.iam.gserviceaccount.com'
+        # service_account: 'helpxlog@my-project-1734831833913.iam.gserviceaccount.com'
         token_format: 'access_token'
         access_token_scopes: 'https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/blogger'
-        # access_token_subject: 'helpxlog@gmail.com'
-        # access_token_scopes: 'https://www.googleapis.com/auth/blogger'
-        id_token_include_email: 'true'
-                                    
-    # - name: 'Set up Cloud SDK'
-    #   uses: 'google-github-actions/setup-gcloud@v1'
-
-    # - name: 'Use gcloud CLI'
-    #   run: 'gcloud info'
-    
-    # - id: 'gcloud'
-    #   name: 'gcloud'
-    #   run: |-
-    #     gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
-    #     gcloud services list
+        # id_token_include_email: 'true'
 
     - name: 'Get Blogger data by ID'
       run: |
@@ -43,20 +29,11 @@ jobs:
         curl -H "Authorization: Bearer $ACCESS_TOKEN" \
              "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690?key=AIzaSyAbNkNtvvShn2Oif0HATo2ndbwfH-sehWY"
              
-    - name: 'Get Blogger data'
-      run: |
-        ACCESS_TOKEN=$(gcloud auth print-access-token)
         curl -H "Authorization: Bearer $ACCESS_TOKEN" \
              "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690/posts"
              
-    - name: 'Post Blogger'
-      run: |
-        ACCESS_TOKEN=$(gcloud auth print-access-token)
         curl -H "Authorization: Bearer $ACCESS_TOKEN" \
              "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690/posts" \
               -d '{"kind": "blogger#post","blog": {"id": "5234182378575703690"},"title": "A new post","content": "With <b>exciting</b> content..."}'
          
               
-    # - name: 'get google blogger resource'
-    #   run: |
-    #     curl -vs "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690/posts" -H 'Authorization: Bearer ya29.a0ARW5m76ZtGteL0wW1EhVcr6UiCsLlyCauPq3ihYE6ItKYE9GS1RQpssUOxl2eF5lnjrWxR01hYaE1emt2SEz0RYjeVdv469-R_rQCBsf-1tM04fWk0VERqmplWq_cpNb0zUvzo3fxp5pT9mpxNh-3iCzx0t6PpPFwT-vgaejaCgYKAdISARISFQHGX2MifCFh4wgEvGXElwrDQH1eGw0175' -d '{"kind": "blogger#post","blog": {"id": "5234182378575703690"},"title": "A new post","content": "With <b>exciting</b> content..."}'
