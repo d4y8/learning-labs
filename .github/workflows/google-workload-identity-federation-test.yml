@@ -29,16 +29,18 @@ jobs:
       with:
         version: '>= 379.0.0'
     - name: 'Get Blogger data by ID'
+      env:
+        AUTH_TOKEN: ${{ steps.auth.outputs.auth_token }}
       run: |
-        ACCESS_TOKEN=$(gcloud auth print-access-token)
-        echo "access_token: $ACCESS_TOKEN"
-        curl -H "Authorization: Bearer $ACCESS_TOKEN" \
+        # ACCESS_TOKEN=$(gcloud auth print-access-token)
+        echo "AUTH_TOKEN: $AUTH_TOKEN"
+        curl -H "Authorization: Bearer $AUTH_TOKEN" \
              "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690?key=AIzaSyAbNkNtvvShn2Oif0HATo2ndbwfH-sehWY"
              
-        curl -H "Authorization: Bearer $ACCESS_TOKEN" \
+        curl -H "Authorization: Bearer $AUTH_TOKEN" \
              "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690/posts"
              
-        curl -H "Authorization: Bearer $ACCESS_TOKEN" \
+        curl -H "Authorization: Bearer $AUTH_TOKEN" \
              "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690/posts" \
               -d '{"kind": "blogger#post","blog": {"id": "5234182378575703690"},"title": "A new post","content": "With <b>exciting</b> content..."}'
          
