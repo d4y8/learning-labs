@@ -42,8 +42,6 @@ jobs:
         access_token_scopes: 'https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/blogger'
         service_account: 'helpxlog@my-project-1734831833913.iam.gserviceaccount.com'
         token_format: 'access_token'
-        # id_token_include_email: 'true'
-  
               
     - name: 'Get Blogger data by ID'
       env:
