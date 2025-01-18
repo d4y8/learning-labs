@@ -19,11 +19,21 @@ jobs:
       with:
         project_id: 'my-project'
         workload_identity_provider: 'projects/74170354433/locations/global/workloadIdentityPools/blogger-helpxlog/providers/github'
+        # access_token_scopes: 'https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/blogger'
         # service_account: 'helpxlog@my-project-1734831833913.iam.gserviceaccount.com'
         # token_format: 'access_token'
-        access_token_scopes: 'https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/blogger'
         # id_token_include_email: 'true'
 
+    # - id: 'auth'
+    #   uses: 'google-github-actions/auth@v2'
+    #   with:
+    #     project_id: 'my-project'
+    #     workload_identity_provider: 'projects/74170354433/locations/global/workloadIdentityPools/blogger-helpxlog/providers/github'
+    #     access_token_scopes: 'https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/blogger'
+    #     # service_account: 'helpxlog@my-project-1734831833913.iam.gserviceaccount.com'
+    #     # token_format: 'access_token'
+    #     # id_token_include_email: 'true'
+  
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v1'
       with:
@@ -32,16 +42,7 @@ jobs:
       env:
         AUTH_TOKEN: ${{ steps.auth.outputs.auth_token }}
       run: |
-        # ACCESS_TOKEN=$(gcloud auth print-access-token)
         echo "AUTH_TOKEN: $AUTH_TOKEN"
         curl -H "Authorization: Bearer $AUTH_TOKEN" \
-             "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690?key=AIzaSyAbNkNtvvShn2Oif0HATo2ndbwfH-sehWY"
-             
-        curl -H "Authorization: Bearer $AUTH_TOKEN" \
-             "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690/posts"
-             
-        curl -H "Authorization: Bearer $AUTH_TOKEN" \
-             "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690/posts" \
-              -d '{"kind": "blogger#post","blog": {"id": "5234182378575703690"},"title": "A new post","content": "With <b>exciting</b> content..."}'
-         
+             "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690"
               
