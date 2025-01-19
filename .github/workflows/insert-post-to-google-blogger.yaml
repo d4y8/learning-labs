@@ -52,7 +52,7 @@ jobs:
             after_path="${GITHUB_EVENT_REPOSITORY_URL}/blob/main/$(dirname ${file})/README-images?raw=true"
             after_path=${after_path//\//\\/}
             after_path=${after_path//./\\.}
-            after_path=${after_path//?/\\?}
+            after_path=${after_path//\?/\\\?}
 
             sed -i 's/'${before_path}'/'${after_path}'/g' ${html_file}
 
