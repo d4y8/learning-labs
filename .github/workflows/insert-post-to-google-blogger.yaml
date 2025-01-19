@@ -1,13 +1,13 @@
 name: Insert post to Google Blogger
 
-on: # 実行タイミング
+on:
   push:
     branches: 
     - main
-    paths: # 実行条件の追加
+    paths:
     - '**/*.md'
     - '.github/**/*.*'
-  workflow_dispatch: #手動実行
+  workflow_dispatch:
 
 jobs:
   call-blogger-api:
