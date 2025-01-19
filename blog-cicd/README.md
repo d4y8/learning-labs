@@ -4,7 +4,7 @@ Service Accountで認証する場合、Google Bloggerへポストする権限が
 
 ## 自動化しようとした背景
 WordPressで運用していたブログをGoogle Bloggerにマイグレーションした際、
-移行ツールはあるものの結構手間だった。 
+移行ツールはあるものの結構手間だった。特に画像の移行。
 なので今後ブログサーバーの移行があっても楽できるように
 ブログのリソース(記事、画像)はGitHubで管理、ついでに諸々自動化できたらというのが動機。
 
@@ -212,4 +212,3 @@ https://github.com/actions/checkout?tab=readme-ov-file#usage
 
 #### 解決方法
 `fetch-depth`を`2`に変更
-

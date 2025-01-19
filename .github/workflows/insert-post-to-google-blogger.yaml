@@ -25,6 +25,7 @@ jobs:
         env:
             GITHUB_EVENT_BEFORE: ${{ github.event.before }}
         run: |
+          set -eux
           sudo apt-get install -y pandoc
 
           diff_list=$(git diff --name-only ${GITHUB_EVENT_BEFORE}..HEAD)
@@ -44,7 +45,9 @@ jobs:
             # ./README-images
             # ↓
             # https://github.com/d4y8/learning-labs/blob/main/.github/workflows/README-images
-            sed -i 's/\.\/README-images/https:\/\/github\.com\/d4y8\/learning-labs\/blob\/main\/\.github\/workflows\/README-images/g' ${html_file}
+            before_path="./README-images"
+            after_path="https://github.com/d4y8/learning-labs/blob/main/.github/workflows/README-images"
+            sed -i 's/${before_path}/${after_path}/g' ${html_file}
 
             cat ${html_file}
           done
