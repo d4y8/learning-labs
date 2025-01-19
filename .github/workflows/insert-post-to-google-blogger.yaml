@@ -57,7 +57,7 @@ jobs:
             sed -i 's/'${before_path}'/'${after_path}'/g' ${html_file}
 
             before_string="\.png\""
-            after_string="\.png\"\?raw=true"
+            after_string="\.png\?raw=true\""
 
             sed -i 's/'${before_string}'/'${after_string}'/g' ${html_file}
 
