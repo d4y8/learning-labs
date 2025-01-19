@@ -96,6 +96,7 @@ jobs:
       - name: Convert Markdown to HTML
         env:
             GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+            GITHUB_EVENT_REPOSITORY_URL: ${{ github.event.repository.url}}
         run: |
           sudo apt-get install -y pandoc
 
@@ -212,4 +213,3 @@ https://github.com/actions/checkout?tab=readme-ov-file#usage
 
 #### 解決方法
 `fetch-depth`を`2`に変更
-
