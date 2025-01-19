@@ -19,7 +19,7 @@ jobs:
       uses: 'google-github-actions/auth@v2'
       with:
         project_id: 'my-project'
-        workload_identity_provider: 'projects/74170354433/locations/global/workloadIdentityPools/blogger-helpxlog/providers/github'
+        workload_identity_provider: 'projects/74170354433/locations/global/workloadIdentityPools/github-pool/providers/github'
  
     - name: 'Get Blogger data by ID'
       env:
@@ -28,24 +28,3 @@ jobs:
         echo "AUTH_TOKEN: $AUTH_TOKEN"
         curl -H "Authorization: Bearer $AUTH_TOKEN" \
              "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690"
-
-    # - id: 'auth'
-    #   uses: 'google-github-actions/auth@v2'
-    #   with:
-    #     project_id: 'my-project'
-    #     workload_identity_provider: 'projects/74170354433/locations/global/workloadIdentityPools/blogger-helpxlog/providers/github'
-    #     access_token_scopes: 'https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/blogger'
-    #     service_account: 'helpxlog@my-project-1734831833913.iam.gserviceaccount.com'
-    #     token_format: 'access_token'
-              
-    # - name: 'Get Blogger data by ID'
-    #   env:
-    #     ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
-    #   run: |
-    #     echo "ACCESS_TOKEN: $ACCESS_TOKEN"
-    #     curl -H "Authorization: Bearer $ACCESS_TOKEN" \
-    #         "https://www.googleapis.com/blogger/v3/blogs/5234182378575703690"
-
-    #         principalSet://iam.googleapis.com/74170354433/locations/global/workloadIdentityPools/blogger-helpxlog/providers/github
-    #         principal://iam.googleapis.com/projects/74170354433/locations/global/workloadIdentityPools/blogger-helpxlog/providers/github
-    #         principal://iam.googleapis.com/projects/74170354433/locations/global/workloadIdentityPools/blogger-helpxlog/subject/repo:d4y8/learning-labs
