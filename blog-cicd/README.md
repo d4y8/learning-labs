@@ -23,18 +23,18 @@ Google BloggerのアカウントでGoogle Cloudのプロジェクトは作成済
 作成済みのGoogle Cloudのプロジェクトで、Blogger APIを有効する。
 Google Cloud Consoleの[APIとサービス] > [ライブラリ]で[Blogger API]を検索。
 
-<img src="./README-imges/gc-api-library-google-blogger.png" width="80%">
+<img src="./README-images/gc-api-library-google-blogger.png" width="80%">
 
 有効にする。
 
-<img src="./README-imges/gc-api-library-google-blogger-describe.png" width="80%">
+<img src="./README-images/gc-api-library-google-blogger-describe.png" width="80%">
 
 #### Service Accountの作成
 GitHub ActionsからBlogger APIにアクセスするために、サービスアカウントを作成。
 
 Google Cloud Consoleの[IAMと管理] > [サービスアカウント]で、新しいサービスアカウントを作成。
 
-<img src="./README-imges/gc-create-service-account.png" width="80%">
+<img src="./README-images/gc-create-service-account.png" width="80%">
 
 #### キーの作成
 
@@ -43,14 +43,14 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 [キーを追加] > [新しい鍵を作成]を選択。キーのタイプは[JSON]を選択し[作成]。
 キーファイルがダウンロードされる。
 
-<img src="./README-imges/gc-create-service-account-key.png" width="80%">
+<img src="./README-images/gc-create-service-account-key.png" width="80%">
 
 ### GitHubリポジトリへのシークレット登録
 作成したサービスアカウントキーの内容を、GitHubリポジトリのシークレットとして登録。
 リポジトリの[Settings] > [Secrets and variables] > [Actions]で、[New repository secret]押下し、
 [Name]と[Secret]（サービスアカウントキーファイルの内容）を入力して保存。
 
-<img src="./README-imges/github-secret-settings.png" width="80%">
+<img src="./README-images/github-secret-settings.png" width="80%">
 
 ## GitHub Actionsのワークフロー作成
 
