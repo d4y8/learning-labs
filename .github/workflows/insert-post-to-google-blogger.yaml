@@ -24,6 +24,7 @@ jobs:
       - name: Convert Markdown to HTML
         env:
             GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+            GITHUB_EVENT_REPOSITORY_URL: ${{ github.event.repository.url}}
         run: |
           set -eux
           sudo apt-get install -y pandoc
@@ -45,11 +46,11 @@ jobs:
             # ./README-images
             # ↓
             # https://github.com/d4y8/learning-labs/blob/main/<MARKDOWN_DIR_PATH>/README-images
-            
+
             before_path="./README-images"
             md_dir_path=$(dirname ${file})
-            after_path="https://github.com/d4y8/learning-labs/blob/main/${md_dir_path}/README-images"
-            sed -i 's/${before_path}/${after_path}/g' ${html_file}
+            after_path="${GITHUB_EVENT_REPOSITORY_URL}/blob/main/${md_dir_path}/README-images"
+            sed -i 's/'${before_path}'/'${after_path}'/g' ${html_file}
 
             cat ${html_file}
           done
