@@ -56,6 +56,11 @@ jobs:
 
             sed -i 's/'${before_path}'/'${after_path}'/g' ${html_file}
 
+            before_string="\.png\""
+            after_string="\.png\"\?raw=true"
+
+            sed -i 's/'${before_path}'/'${after_path}'/g' ${html_file}
+            
             cat ${html_file}
           done
 
