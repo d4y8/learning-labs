@@ -1,12 +1,11 @@
-name: Workload Identity Federation検証
+name: Direct Workload Identity Federation 検証
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: 
   push:
-  workflow_dispatch: #手動実行
+  workflow_dispatch:
 jobs:
   job_id:
     runs-on: ubuntu-latest
-    # Add "id-token" with the intended permissions.
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -15,7 +14,7 @@ jobs:
       with: 
         fetch-depth: 2
 
-    - id: 'auth' # Direct Workload Identity Federation
+    - id: 'auth'
       uses: 'google-github-actions/auth@v2'
       with:
         project_id: 'my-project'

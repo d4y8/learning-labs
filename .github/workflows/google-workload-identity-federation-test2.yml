@@ -1,4 +1,4 @@
-name: Workload Identity Federation through a Service Account検証
+name: Workload Identity Federation through a Service Account 検証
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: 
   push:
