@@ -53,7 +53,7 @@ jobs:
             after_path=${after_path//\//\\/}
             after_path=${after_path//./\\.}
 
-            sed -i 's/${before_path}/${after_path}/g' ${html_file}
+            sed -i 's/'${before_path}'/'${after_path}'/g' ${html_file}
 
             cat ${html_file}
           done
