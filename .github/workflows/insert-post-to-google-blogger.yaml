@@ -12,6 +12,8 @@ on:
 jobs:
   call-blogger-api:
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'write'
     steps:
       - uses: actions/checkout@v4
         with: 
@@ -69,7 +71,7 @@ jobs:
           git config user.name  "actions-user"
           git config user.email "action@github.com"
           git add .
-          git commit -m "generated html"
+          git commit -m "Converted Markdown to HTML"
           git push
 
       - name: Set up authentication
