@@ -84,6 +84,8 @@ on:
 jobs:
   call-blogger-api:
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'write'
     steps:
       - uses: actions/checkout@v4
         with: 
@@ -242,8 +244,19 @@ remote: Permission to d4y8/learning-labs.git denied to github-actions[bot].
 fatal: unable to access 'https://github.com/d4y8/learning-labs/': The requested URL returned error: 403
 ```
 #### 原因
-ワークフローにリポジトリに対して書き込み権限がないため
+ジョブがコンテンツへの書き込み権限を持っていないため。
 
 #### 解決方法
+ジョブに書き込み権限を付与する。
+```yaml
+jobs:
+  call-blogger-api:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'write' #追加
+```
+
+リポジトリ内のすべてのワークフローに共通して設定する場合は以下でもOK。  
+
 [Settings] > [Actions] > [General] > [Workflow permissions]
 `Read and write permissions`を選択して[Save]。
