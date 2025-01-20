@@ -212,7 +212,7 @@ for filepath in html_files:
 Service AccountではGoogle Bloggerに記事を投稿する権限はない。
 
 #### 対策(検討)
-なし、、、HTMLファイルをリポジトリの保存して、それをGoogle Bloggerに手動更新する？
+なし、、、HTMLファイルをリポジトリの保存して、それをGoogle Bloggerに手動更新する。
 
 ### 今後やれたら
 Textlint、Google Search Console、SNSポスト辺りも自動化できたら良い。

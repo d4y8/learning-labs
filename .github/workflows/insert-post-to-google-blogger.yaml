@@ -21,8 +21,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13.1'
-      - name: Install dependencies
-        run: pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
       - name: Convert Markdown to HTML
         env:
             GITHUB_EVENT_BEFORE: ${{ github.event.before }}
@@ -30,6 +28,7 @@ jobs:
         run: |
           set -eux
           sudo apt-get install -y pandoc
+          pip install --user pandoc-include
 
           diff_list=$(git diff --name-only ${GITHUB_EVENT_BEFORE}..HEAD)
 
@@ -74,6 +73,8 @@ jobs:
           git commit -m "Converted Markdown to HTML"
           git push
 
+      # - name: Install dependencies
+      #   run: pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
       - name: Set up authentication
         uses: google-github-actions/auth@v2
         with:
