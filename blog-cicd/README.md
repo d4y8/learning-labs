@@ -11,7 +11,7 @@ WordPressで運用していたブログをGoogle Bloggerにマイグレーショ
 ## やりたいこと
 - ブログのリソース(記事や画像)はGitHubで管理したい。
 - 記事はMarkdownで書きたい。
-- リポジトリにPushしたらGitHub ActionsでBloggerに投稿したい。
+- リポジトリにPushしたらGitHub ActionsでBloggerに自動で投稿したい。
 
 ## 事前準備
 Google Blogger APIを利用するにあたり、認証に必要な設定をしておく。
@@ -98,29 +98,51 @@ jobs:
             GITHUB_EVENT_BEFORE: ${{ github.event.before }}
             GITHUB_EVENT_REPOSITORY_URL: ${{ github.event.repository.url}}
         run: |
+          set -eux
           sudo apt-get install -y pandoc
 
           diff_list=$(git diff --name-only ${GITHUB_EVENT_BEFORE}..HEAD)
 
-          mkdir html
-          html_dir=html
           for file in $diff_list; do
             if [[ ${file} != *.md ]]; then
               continue
             fi
             
+            dir_name=$(dirname ${file})
+            html_dir=${dir_name}/html
+            mkdir -p ${html_dir}
+
             # md -> html変換
-            html_file=$html_dir/$(basename "${file}" .md).html
+            html_file=${html_dir}/$(basename "${file}" .md).html
             pandoc -f markdown -t html "${file}" > ${html_file}
 
             # img パス置換
             # ./README-images
             # ↓
-            # https://github.com/d4y8/learning-labs/blob/main/.github/workflows/README-images
-            sed -i 's/\.\/README-images/https:\/\/github\.com\/d4y8\/learning-labs\/blob\/main\/\.github\/workflows\/README-images/g' ${html_file}
+            # https://github.com/d4y8/learning-labs/blob/main/<MARKDOWN_DIR_PATH>/README-images
+
+            before_path="\.\/README-images"
+
+            after_path="${GITHUB_EVENT_REPOSITORY_URL}/blob/main/${dir_name}/README-images"
+            after_path=${after_path//\//\\/}
+            after_path=${after_path//./\\.}
+            after_path=${after_path//\?/\\\?}
+
+            sed -i 's/'${before_path}'/'${after_path}'/g' ${html_file}
+
+            before_string="\.png\""
+            after_string="\.png\?raw=true\""
+
+            sed -i 's/'${before_string}'/'${after_string}'/g' ${html_file}
 
             cat ${html_file}
           done
+
+          git config user.name  "actions-user"
+          git config user.email "action@github.com"
+          git add .
+          git commit -m "Converted Markdown to HTML"
+          git push
 
       - name: Set up authentication
         uses: google-github-actions/auth@v2
@@ -214,7 +236,14 @@ https://github.com/actions/checkout?tab=readme-ov-file#usage
 #### 解決方法
 `fetch-depth`を`2`に変更
 
+###　GitHub Actionsでgit push
+```log
+remote: Permission to d4y8/learning-labs.git denied to github-actions[bot].
+fatal: unable to access 'https://github.com/d4y8/learning-labs/': The requested URL returned error: 403
+```
+#### 原因
+ワークフローにリポジトリに対して書き込み権限がないため
 
-## TODO
-htmlを同じディレクトリにコミットする。
-ログから貼り付けていると値がマスクされてしまうので。
+#### 解決方法
+[Settings] > [Actions] > [General] > [Workflow permissions]
+`Read and write permissions`を選択して[Save]。
