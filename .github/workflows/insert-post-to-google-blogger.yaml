@@ -31,15 +31,17 @@ jobs:
 
           diff_list=$(git diff --name-only ${GITHUB_EVENT_BEFORE}..HEAD)
 
-          mkdir html
-          html_dir=html
           for file in $diff_list; do
             if [[ ${file} != *.md ]]; then
               continue
             fi
             
+            dir_name=$(dirname ${file})
+            html_dir=${dir_name}/html
+            mkdir -p ${html_dir}
+
             # md -> html変換
-            html_file=$html_dir/$(basename "${file}" .md).html
+            html_file=${html_dir}/$(basename "${file}" .md).html
             pandoc -f markdown -t html "${file}" > ${html_file}
 
             # img パス置換
@@ -49,7 +51,7 @@ jobs:
 
             before_path="\.\/README-images"
 
-            after_path="${GITHUB_EVENT_REPOSITORY_URL}/blob/main/$(dirname ${file})/README-images"
+            after_path="${GITHUB_EVENT_REPOSITORY_URL}/blob/main/${dir_name}/README-images"
             after_path=${after_path//\//\\/}
             after_path=${after_path//./\\.}
             after_path=${after_path//\?/\\\?}
@@ -63,6 +65,11 @@ jobs:
 
             cat ${html_file}
           done
+
+          git config user.email "action@github.com"
+          git add .
+          git commit -m "generated html"
+          git push
 
       - name: Set up authentication
         uses: google-github-actions/auth@v2
