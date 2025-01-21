@@ -70,12 +70,12 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 ### 実装内容
 .github/workflows/insert-post-to-google-blogger.yaml
 ```yaml
-!include ".github/workflows/insert-post-to-google-blogger.yaml"
+!include .github/workflows/insert-post-to-google-blogger.yaml
 ```
 
 .github/scripts/blog_post.py
 ```py
-!include ".github/scripts/blog_post.py"
+!include .github/scripts/blog_post.py
 ```
 
 ```html
@@ -100,10 +100,11 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 ```
 
 ```html
-!include html.txt
-```
-```html
 !include ../html.txt
+```
+
+```html
+!include html.txt
 ```
 
 ### GitHub Actionsが実行されると、Bloggerへの投稿時に403エラー
