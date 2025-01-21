@@ -87,7 +87,18 @@ class="sourceCode html"><code class="sourceCode html"><span id="cb7-1"><a href="
 <div class="sourceCode" id="cb8"><pre
 class="sourceCode html"><code class="sourceCode html"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>!include &quot;/home/runner/work/learning-labs/blog-cicd/html/README.html&quot;</span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre
-class="sourceCode html"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>!include /home/runner/work/learning-labs/blog-cicd/html/README.html</span></code></pre></div>
+class="sourceCode html"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>blog-cicd/html/README.html</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>blog-cicd/html/README.html</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>blog-cicd/html/README.html</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>blog-cicd/html/README.html</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>blog-cicd/html/README.html</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>blog-cicd/html/README.html</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>blog-cicd/html/README.html</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>blog-cicd/html/README.html</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>blog-cicd/html/README.html</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>blog-cicd/html/README.html</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>!include ../html.txt</span></code></pre></div>
 <h3 id="github-actionsが実行されるとbloggerへの投稿時に403エラー">GitHub
 Actionsが実行されると、Bloggerへの投稿時に403エラー</h3>
 <p>エラー内容</p>
@@ -105,8 +116,8 @@ Console、SNSポスト辺りも自動化できたら良い。</p>
 <h3 id="git-diff-実行時にエラー">git diff 実行時にエラー</h3>
 <p>GitHub
 Actionsのジョブにて以下のように<code>git diff</code>したところエラーとなった。</p>
-<div class="sourceCode" id="cb11"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--name-only</span> <span class="va">${</span><span class="er">{ github.event.before </span><span class="va">}</span>}..HEAD<span class="er">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--name-only</span> <span class="va">${</span><span class="er">{ github.event.before </span><span class="va">}</span>}..HEAD<span class="er">)</span></span></code></pre></div>
 <pre class="log"><code>fatal: Invalid revision range ef1dd6de85606d4627addee932fd51ba7bff9e7d..HEAD
 Error: Process completed with exit code 128.</code></pre>
 <h4 id="原因-1">原因</h4>
@@ -122,12 +133,12 @@ fatal: unable to access &#39;https://github.com/d4y8/learning-labs/&#39;: The re
 <p>ジョブがコンテンツへの書き込み権限を持っていないため。</p>
 <h4 id="解決方法-1">解決方法</h4>
 <p>ジョブに書き込み権限を付与する。</p>
-<div class="sourceCode" id="cb14"><pre
-class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">call-blogger-api</span><span class="kw">:</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">permissions</span><span class="kw">:</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">contents</span><span class="kw">:</span><span class="at"> </span><span class="st">&#39;write&#39;</span><span class="co"> #追加</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">call-blogger-api</span><span class="kw">:</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">permissions</span><span class="kw">:</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">contents</span><span class="kw">:</span><span class="at"> </span><span class="st">&#39;write&#39;</span><span class="co"> #追加</span></span></code></pre></div>
 <p>リポジトリ内のすべてのワークフローに共通して設定する場合は以下でもOK。</p>
 <p>[Settings] &gt; [Actions] &gt; [General] &gt; [Workflow permissions]
 <code>Read and write permissions</code>を選択して[Save]。</p>
