@@ -78,6 +78,10 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 !include ".github/scripts/blog_post.py"
 ```
 
+```html
+!include "html/README.html"
+```
+
 ### GitHub Actionsが実行されると、Bloggerへの投稿時に403エラー
 エラー内容
 ```log
