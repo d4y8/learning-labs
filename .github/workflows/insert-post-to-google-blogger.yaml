@@ -30,6 +30,8 @@ jobs:
           sudo apt-get install -y pandoc
           pip install --user pandoc-include
 
+          ls -l
+
           diff_list=$(git diff --name-only ${GITHUB_EVENT_BEFORE}..HEAD)
 
           for file in $diff_list; do
