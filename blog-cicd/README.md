@@ -87,6 +87,9 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 ```html
 !include "./html/README.html"
 ```
+```html
+!include ./html/README.html
+```
 
 ```html
 !include "blog-cicd/html/README.html"
