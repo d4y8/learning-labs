@@ -67,11 +67,13 @@ jobs:
             cat ${html_file}
           done
 
-          git config user.name  "actions-user"
-          git config user.email "action@github.com"
-          git add .
-          git commit -m "Converted Markdown to HTML"
-          git push
+          if [[ -n ${html_file} ]]; then
+            git config user.name  "actions-user"
+            git config user.email "action@github.com"
+            git add .
+            git commit -m "Converted Markdown to HTML"
+            git push
+          fi
 
       - name: Set up authentication
         uses: google-github-actions/auth@v2
