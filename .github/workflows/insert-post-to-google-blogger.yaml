@@ -72,7 +72,7 @@ jobs:
           if [[ -n ${html_file} ]]; then
             git config user.name  "actions-user"
             git config user.email "action@github.com"
-            git add **/*.md
+            git add **/*.html
             git commit -m "Converted Markdown to HTML"
             git push
           fi
