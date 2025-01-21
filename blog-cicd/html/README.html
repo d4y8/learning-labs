@@ -74,6 +74,8 @@ Account Key Jsonでの認証を利用する。</p>
 class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="at">!include &quot;.github/workflows/insert-post-to-google-blogger.yaml&quot;</span></span></code></pre></div>
 <p>.github/scripts/blog_post.py</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>include <span class="st">&quot;.github/scripts/blog_post.py&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>!include &quot;html/README.html&quot;</span></code></pre></div>
 <h3 id="github-actionsが実行されるとbloggerへの投稿時に403エラー">GitHub
 Actionsが実行されると、Bloggerへの投稿時に403エラー</h3>
 <p>エラー内容</p>
@@ -91,7 +93,7 @@ Console、SNSポスト辺りも自動化できたら良い。</p>
 <h3 id="git-diff-実行時にエラー">git diff 実行時にエラー</h3>
 <p>GitHub
 Actionsのジョブにて以下のように<code>git diff</code>したところエラーとなった。</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--name-only</span> <span class="va">${</span><span class="er">{ github.event.before </span><span class="va">}</span>}..HEAD<span class="er">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--name-only</span> <span class="va">${</span><span class="er">{ github.event.before </span><span class="va">}</span>}..HEAD<span class="er">)</span></span></code></pre></div>
 <pre class="log"><code>fatal: Invalid revision range ef1dd6de85606d4627addee932fd51ba7bff9e7d..HEAD
 Error: Process completed with exit code 128.</code></pre>
 <h4 id="原因-1">原因</h4>
@@ -107,12 +109,12 @@ fatal: unable to access &#39;https://github.com/d4y8/learning-labs/&#39;: The re
 <p>ジョブがコンテンツへの書き込み権限を持っていないため。</p>
 <h4 id="解決方法-1">解決方法</h4>
 <p>ジョブに書き込み権限を付与する。</p>
-<div class="sourceCode" id="cb7"><pre
-class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">call-blogger-api</span><span class="kw">:</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">permissions</span><span class="kw">:</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">contents</span><span class="kw">:</span><span class="at"> </span><span class="st">&#39;write&#39;</span><span class="co"> #追加</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">call-blogger-api</span><span class="kw">:</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">permissions</span><span class="kw">:</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">contents</span><span class="kw">:</span><span class="at"> </span><span class="st">&#39;write&#39;</span><span class="co"> #追加</span></span></code></pre></div>
 <p>リポジトリ内のすべてのワークフローに共通して設定する場合は以下でもOK。</p>
 <p>[Settings] &gt; [Actions] &gt; [General] &gt; [Workflow permissions]
 <code>Read and write permissions</code>を選択して[Save]。</p>
