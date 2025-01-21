@@ -8,13 +8,16 @@ service = build("blogger", "v3")
 # ブログIDを指定
 blog_id = os.environ.get("BLOG_ID")
 
-DIRECTORY_HTML = "html"
+# DIRECTORY_HTML = "html"
 # ディレクトリ内のすべての.htmlファイルをリストアップ
-html_files = glob.glob(os.path.join(DIRECTORY_HTML, "*.html"))
+# html_files = glob.glob(os.path.join(DIRECTORY_HTML, "*.html"))
 
-if not html_files:
-    print(f"No HTML files found in '{DIRECTORY_HTML}'.")
-    exit
+with open("html.txt", "r", encoding="utf-8") as f:
+    html_files = f.read().splitlines()
+
+# if not html_files:
+#     print(f"No HTML files found in '{DIRECTORY_HTML}'.")
+#     exit
 for filepath in html_files:
     try:
         with open(filepath, "r", encoding="utf-8") as file:

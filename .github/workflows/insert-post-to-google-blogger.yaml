@@ -65,6 +65,7 @@ jobs:
             sed -i 's/'${before_string}'/'${after_string}'/g' ${html_file}
 
             cat ${html_file}
+            echo ${html_file} >> html.txt
           done
 
           if [[ -n ${html_file} ]]; then

@@ -94,7 +94,7 @@ jobs:
         with:
           python-version: '3.13.1'
       - name: Install dependencies
-        run: pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
+        run: pip install google-api-python-client
       - name: Convert Markdown to HTML
         env:
             GITHUB_EVENT_BEFORE: ${{ github.event.before }}
@@ -138,6 +138,7 @@ jobs:
             sed -i 's/'${before_string}'/'${after_string}'/g' ${html_file}
 
             cat ${html_file}
+            echo ${html_file} >> html.txt
           done
 
           if [[ -n ${html_file} ]]; then
