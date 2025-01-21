@@ -100,7 +100,10 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 ```
 
 ```html
-!include /home/runner/work/learning-labs/blog-cicd/html/README.html
+!include html.txt
+```
+```html
+!include ../html.txt
 ```
 
 ### GitHub Actionsが実行されると、Bloggerへの投稿時に403エラー
