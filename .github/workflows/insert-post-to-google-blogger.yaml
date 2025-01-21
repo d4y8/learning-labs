@@ -30,9 +30,6 @@ jobs:
           sudo apt-get install -y pandoc
           pip install --user pandoc-include
 
-          pwd
-          ls -la
-
           diff_list=$(git diff --name-only ${GITHUB_EVENT_BEFORE}..HEAD)
 
           for file in $diff_list; do
@@ -75,7 +72,7 @@ jobs:
           if [[ -n ${html_file} ]]; then
             git config user.name  "actions-user"
             git config user.email "action@github.com"
-            git add .
+            git add **/*.md
             git commit -m "Converted Markdown to HTML"
             git push
           fi

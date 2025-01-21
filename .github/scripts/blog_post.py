@@ -1,5 +1,4 @@
 import os
-import glob
 
 from googleapiclient.discovery import build
 
@@ -8,16 +7,9 @@ service = build("blogger", "v3")
 # ブログIDを指定
 blog_id = os.environ.get("BLOG_ID")
 
-# DIRECTORY_HTML = "html"
-# ディレクトリ内のすべての.htmlファイルをリストアップ
-# html_files = glob.glob(os.path.join(DIRECTORY_HTML, "*.html"))
-
 with open("html.txt", "r", encoding="utf-8") as f:
     html_files = f.read().splitlines()
 
-# if not html_files:
-#     print(f"No HTML files found in '{DIRECTORY_HTML}'.")
-#     exit
 for filepath in html_files:
     print(filepath)
     try:
