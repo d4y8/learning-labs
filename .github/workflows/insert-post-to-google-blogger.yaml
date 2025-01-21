@@ -73,12 +73,14 @@ jobs:
           git commit -m "Converted Markdown to HTML"
           git push
 
-      # - name: Install dependencies
-      #   run: pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
       - name: Set up authentication
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+      - name: Install dependencies
+        # run: pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
+        run: pip install google-api-python-client
 
       - name: Call Blogger API
         env: 
