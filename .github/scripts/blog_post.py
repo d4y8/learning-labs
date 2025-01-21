@@ -19,6 +19,7 @@ with open("html.txt", "r", encoding="utf-8") as f:
 #     print(f"No HTML files found in '{DIRECTORY_HTML}'.")
 #     exit
 for filepath in html_files:
+    print(filepath)
     try:
         with open(filepath, "r", encoding="utf-8") as file:
             html_content = file.read()
@@ -33,7 +34,7 @@ for filepath in html_files:
             # print(results)
 
             # insertは403エラー
-            result = service.posts().insert(blogId=blog_id).execute()
+            result = service.posts().insert(blogId=blog_id, contents=body).execute()
             print(result)
 
     except UnicodeDecodeError:
