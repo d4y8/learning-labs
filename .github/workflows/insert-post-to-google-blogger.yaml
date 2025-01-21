@@ -43,7 +43,8 @@ jobs:
 
             # md -> html変換
             html_file=${html_dir}/$(basename "${file}" .md).html
-            pandoc -f markdown -t html "${file}" > ${html_file}
+            # pandoc -f markdown -t html "${file}" > ${html_file}
+            pandoc -f markdown -t html --filter pandoc-include "${file}" > ${html_file}
 
             # img パス置換
             # ./README-images
@@ -82,7 +83,6 @@ jobs:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
       - name: Install dependencies
-        # run: pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
         run: pip install google-api-python-client
 
       - name: Call Blogger API
