@@ -135,6 +135,6 @@ jobs:
 
 リポジトリ内のすべてのワークフローに共通して設定する場合は以下でもOK。  
 
-[Settings] > [Actions] > [General] > [Workflow permissions]
+[Settings] > [Actions] > [General] > [Workflow permissions]で
 `Read and write permissions`を選択して[Save]。
 
