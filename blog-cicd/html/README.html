@@ -61,8 +61,10 @@ Actionsのワークフロー作成</h2>
 <li>htmlをGoogle BloggerへPost</li>
 </ol>
 <h3 id="md---html変換">md -&gt; html変換</h3>
-<p><a
-href="https://pandoc-doc-ja.readthedocs.io/ja/latest/users-guide.html">pandoc</a>を利用する。</p>
+<p>以下を利用する。 - <a
+href="https://pandoc-doc-ja.readthedocs.io/ja/latest/users-guide.html">pandoc</a>
+- <a
+href="https://github.com/DCsunset/pandoc-include">pandoc-include</a></p>
 <h3 id="github-actions-から-google-cloud-への認証">GitHub Actions から
 Google Cloud への認証</h3>
 <p><a
@@ -199,14 +201,13 @@ class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb1-1"><a href="
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&quot;Error: Encoding error in </span><span class="sc">{</span>filepath<span class="sc">}</span><span class="ss">&quot;</span>)</span>
 <span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
 <span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&quot;Error processing </span><span class="sc">{</span>filepath<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div>
-<h3 id="github-actionsが実行されるとbloggerへの投稿時に403エラー">GitHub
-Actionsが実行されると、Bloggerへの投稿時に403エラー</h3>
-<p>エラー内容</p>
+<h3 id="github-actionsが実行---bloggerへの投稿時に403エラー">GitHub
+Actionsが実行 -&gt; Bloggerへの投稿時に403エラー</h3>
 <pre class="log"><code>&lt;HttpError 403 when requesting https://blogger.googleapis.com/v3/blogs/***/posts?alt=json returned &quot;We&#39;re sorry, but you don&#39;t have permission to access this resource.&quot;. Details: &quot;[***&#39;message&#39;: &quot;We&#39;re sorry, but you don&#39;t have permission to access this resource.&quot;, &#39;domain&#39;: &#39;global&#39;, &#39;reason&#39;: &#39;forbidden&#39;***]&quot;&gt;</code></pre>
 <h4 id="原因">原因</h4>
 <p>Service AccountではGoogle Bloggerに記事を投稿する権限はない。</p>
 <h4 id="対策検討">対策(検討)</h4>
-<p>なし、、、HTMLファイルをリポジトリの保存して、それをGoogle
+<p>なし、、、HTMLファイルをリポジトリに保存して、それをGoogle
 Bloggerに手動更新する。</p>
 <h3 id="今後やれたら">今後やれたら</h3>
 <p>Textlint、Google Search
@@ -225,7 +226,8 @@ Error: Process completed with exit code 128.</code></pre>
 <p>https://github.com/actions/checkout?tab=readme-ov-file#usage</p>
 <h4 id="解決方法">解決方法</h4>
 <p><code>fetch-depth</code>を<code>2</code>に変更</p>
-<p>###　GitHub Actionsでgit push</p>
+<h3 id="github-actionsのジョブでgit-pushすると403エラー">GitHub
+Actionsのジョブでgit pushすると403エラー</h3>
 <pre class="log"><code>remote: Permission to d4y8/learning-labs.git denied to github-actions[bot].
 fatal: unable to access &#39;https://github.com/d4y8/learning-labs/&#39;: The requested URL returned error: 403</code></pre>
 <h4 id="原因-2">原因</h4>
