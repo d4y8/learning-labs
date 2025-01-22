@@ -62,7 +62,9 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 1. htmlをGoogle BloggerへPost
 
 ### md -> html変換
-[pandoc](https://pandoc-doc-ja.readthedocs.io/ja/latest/users-guide.html)を利用する。
+以下を利用する。
+- [pandoc](https://pandoc-doc-ja.readthedocs.io/ja/latest/users-guide.html)
+- [pandoc-include](https://github.com/DCsunset/pandoc-include)
 
 ### GitHub Actions から Google Cloud への認証
 [google-github-actions/auth](https://github.com/google-github-actions/auth?tab=readme-ov-file#service-account-key-json)でService Account Key Jsonでの認証を利用する。
@@ -78,8 +80,8 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 !include .github/scripts/blog_post.py
 ```
 
-### GitHub Actionsが実行されると、Bloggerへの投稿時に403エラー
-エラー内容
+### GitHub Actionsが実行 -> Bloggerへの投稿時に403エラー
+
 ```log
 <HttpError 403 when requesting https://blogger.googleapis.com/v3/blogs/***/posts?alt=json returned "We're sorry, but you don't have permission to access this resource.". Details: "[***'message': "We're sorry, but you don't have permission to access this resource.", 'domain': 'global', 'reason': 'forbidden'***]">
 ```
@@ -87,7 +89,7 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 Service AccountではGoogle Bloggerに記事を投稿する権限はない。
 
 #### 対策(検討)
-なし、、、HTMLファイルをリポジトリの保存して、それをGoogle Bloggerに手動更新する。
+なし、、、HTMLファイルをリポジトリに保存して、それをGoogle Bloggerに手動更新する。
 
 ### 今後やれたら
 Textlint、Google Search Console、SNSポスト辺りも自動化できたら良い。
@@ -113,7 +115,7 @@ https://github.com/actions/checkout?tab=readme-ov-file#usage
 #### 解決方法
 `fetch-depth`を`2`に変更
 
-###　GitHub Actionsでgit push
+### GitHub Actionsのジョブでgit pushすると403エラー
 ```log
 remote: Permission to d4y8/learning-labs.git denied to github-actions[bot].
 fatal: unable to access 'https://github.com/d4y8/learning-labs/': The requested URL returned error: 403
