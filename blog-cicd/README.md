@@ -62,7 +62,8 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 1. htmlをGoogle BloggerへPost
 
 ### md -> html変換
-以下を利用する。
+次のPythonパッケージを利用する。
+
 - [pandoc](https://pandoc-doc-ja.readthedocs.io/ja/latest/users-guide.html)
 - [pandoc-include](https://github.com/DCsunset/pandoc-include)
 
