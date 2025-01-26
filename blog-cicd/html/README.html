@@ -34,8 +34,10 @@ API]を検索。</p>
 <p>GitHub ActionsからBlogger
 APIにアクセスするために、サービスアカウントを作成。</p>
 <p>Google Cloud Consoleの[IAMと管理] &gt;
-[サービスアカウント]で、新しいサービスアカウントを作成。</p>
+[サービスアカウント]で、新しいサービスアカウント情報を入力し[作成して続行]。</p>
 <p><img src="https://github.com/d4y8/learning-labs/blob/main/blog-cicd/README-images/gc-create-service-account.png?raw=true" width="80%"></p>
+<p>アクセス権でbloggerリソースのロールは指定できないようなので、オーナー権限を付与してみる。</p>
+<p><img src="https://github.com/d4y8/learning-labs/blob/main/blog-cicd/README-images/gc-create-service-account-binding-role.png?raw=true" width="80%"></p>
 <h4 id="キーの作成">キーの作成</h4>
 <p>サービスアカウントの認証に使用するJSON形式のキーを作成。 Google Cloud
 Consoleのサービスアカウントの詳細ページで、[鍵]タブを選択し、
