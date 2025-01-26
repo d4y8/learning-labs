@@ -25,8 +25,8 @@ APIを利用するにあたり、認証に必要な設定をしておく。</p>
 Cloudのプロジェクトは作成済みであることを前提とする。</p>
 <h4 id="blogger-apiの有効化">Blogger APIの有効化</h4>
 <p>作成済みのGoogle Cloudのプロジェクトで、Blogger APIを有効する。
-Google Cloud Consoleの[APIとサービス] &gt; [ライブラリ]で[Blogger
-API]を検索。</p>
+Google Cloud Consoleの[APIとサービス] &gt; [ライブラリ]で<a
+href="#blogger-api">Blogger API</a>を検索。</p>
 <p><img src="https://github.com/d4y8/learning-labs/blob/main/blog-cicd/README-images/gc-api-library-google-blogger.png?raw=true" width="80%"></p>
 <p>有効にする。</p>
 <p><img src="https://github.com/d4y8/learning-labs/blob/main/blog-cicd/README-images/gc-api-library-google-blogger-describe.png?raw=true" width="80%"></p>
@@ -75,6 +75,15 @@ Google Cloud への認証</h3>
 <p><a
 href="https://github.com/google-github-actions/auth?tab=readme-ov-file#service-account-key-json">google-github-actions/auth</a>でService
 Account Key Jsonでの認証を利用する。</p>
+<h3 id="blogger-api">Blogger API</h3>
+<ul>
+<li><a
+href="https://developers.google.com/blogger/docs/3.0/api-lib/python?hl=ja">Python
+用 Blogger API クライアント ライブラリ</a></li>
+<li><a
+href="https://googleapis.github.io/google-api-python-client/docs/dyn/blogger_v3.html">Blogger
+API v3 の PyDoc リファレンス</a></li>
+</ul>
 <h3 id="ファイル構成">ファイル構成</h3>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> .github</span>
@@ -209,7 +218,7 @@ class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(results)</span>
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>            <span class="co"># insertは403エラー</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>            result <span class="op">=</span> service.posts().insert(blogId<span class="op">=</span>blog_id, contents<span class="op">=</span>body).execute()</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>            result <span class="op">=</span> service.posts().insert(blogId<span class="op">=</span>blog_id, body<span class="op">=</span>body).execute()</span>
 <span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(result)</span>
 <span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">UnicodeDecodeError</span>:</span>
