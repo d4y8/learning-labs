@@ -70,6 +70,20 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 ### GitHub Actions から Google Cloud への認証
 [google-github-actions/auth](https://github.com/google-github-actions/auth?tab=readme-ov-file#service-account-key-json)でService Account Key Jsonでの認証を利用する。
 
+### ファイル構成
+```
+.
+├── .github
+│   ├── scripts
+│   │   └── blog_post.py
+│   └── workflows
+│       └── insert-post-to-google-blogger.yaml
+├── blog-cicd
+│   ├── README.md
+│   └── html
+│       └── README.html
+```
+
 ### 実装内容
 .github/workflows/insert-post-to-google-blogger.yaml
 ```yaml
