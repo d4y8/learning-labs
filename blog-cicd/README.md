@@ -74,6 +74,11 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 ### GitHub Actions から Google Cloud への認証
 [google-github-actions/auth](https://github.com/google-github-actions/auth?tab=readme-ov-file#service-account-key-json)でService Account Key Jsonでの認証を利用する。
 
+### Blogger API
+
+- [Python 用 Blogger API クライアント ライブラリ](https://developers.google.com/blogger/docs/3.0/api-lib/python?hl=ja)
+- [Blogger API v3 の PyDoc リファレンス](https://googleapis.github.io/google-api-python-client/docs/dyn/blogger_v3.html)
+
 ### ファイル構成
 ```sh
 .
@@ -156,4 +161,3 @@ jobs:
 
 [Settings] > [Actions] > [General] > [Workflow permissions]で
 `Read and write permissions`を選択して[Save]。
-

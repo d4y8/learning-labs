@@ -26,7 +26,7 @@ for filepath in html_files:
             print(results)
 
             # insertは403エラー
-            result = service.posts().insert(blogId=blog_id, contents=body).execute()
+            result = service.posts().insert(blogId=blog_id, body=body).execute()
             print(result)
 
     except UnicodeDecodeError:
