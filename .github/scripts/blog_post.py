@@ -22,8 +22,8 @@ for filepath in html_files:
             }
 
             # listは権限あり
-            # results = service.posts().list(blogId=blog_id).execute()
-            # print(results)
+            results = service.posts().list(blogId=blog_id).execute()
+            print(results)
 
             # insertは403エラー
             result = service.posts().insert(blogId=blog_id, contents=body).execute()
