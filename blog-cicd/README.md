@@ -79,9 +79,9 @@ Google Cloud Consoleのサービスアカウントの詳細ページで、[鍵]�
 │   └── workflows
 │       └── insert-post-to-google-blogger.yaml
 └── blog-cicd
-    ├── README.md
+    ├── README.md # html変換するmdファイル
     └── html
-        └── README.html
+        └── README.html # html変換後のファイル(このHTML)
 ```
 
 ### 実装内容
