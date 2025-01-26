@@ -32,9 +32,13 @@ Google Cloud Consoleの[APIとサービス] > [ライブラリ]で[Blogger API]�
 #### Service Accountの作成
 GitHub ActionsからBlogger APIにアクセスするために、サービスアカウントを作成。
 
-Google Cloud Consoleの[IAMと管理] > [サービスアカウント]で、新しいサービスアカウントを作成。
+Google Cloud Consoleの[IAMと管理] > [サービスアカウント]で、新しいサービスアカウント情報を入力し[作成して続行]。
 
 <img src="./README-images/gc-create-service-account.png" width="80%">
+
+アクセス権でbloggerリソースのロールは指定できないようなので、オーナー権限を付与してみる。
+
+<img src="./README-images/gc-create-service-account-binding-role.png" width="80%">
 
 #### キーの作成
 
