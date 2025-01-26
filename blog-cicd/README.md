@@ -152,4 +152,3 @@ jobs:
 
 [Settings] > [Actions] > [General] > [Workflow permissions]で
 `Read and write permissions`を選択して[Save]。
-

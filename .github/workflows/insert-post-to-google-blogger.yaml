@@ -6,7 +6,6 @@ on:
     - main
     paths:
     - '**/*.md'
-    - '.github/**/*.*'
   workflow_dispatch:
 
 jobs:
