@@ -1,0 +1,145 @@
+<h1
+id="pythonをjavaに準えてサクッとざっくり把握したい">PythonをJavaに準えてサクッとざっくり把握したい</h1>
+<p>Javaはわかるという方が10分程度で把握できるくらいの内容です。</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://www.python.org/">Python 公式ドキュメント</a></li>
+<li><a
+href="https://wiki.python.org/moin/BeginnersGuide/Programmers">BeginnersGuide</a></li>
+<li><a href="https://docs.python.org/ja/3/tutorial/index.html">Python
+チュートリアル</a></li>
+</ul>
+<h2 id="jvm">JVM</h2>
+<p>インタプリタ</p>
+<h2 id="アクセス修飾子">アクセス修飾子</h2>
+<p>厳密なアクセス修飾子はなし。
+変数名に_(protected)や__(private)を付与して表現する慣習がある。
+変数へのアクセスを制限できるわけではない。</p>
+<h2 id="文末-セミコロン">文末 ;(セミコロン)</h2>
+<p>改行</p>
+<h2 id="コメント">コメント //</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># コメントです</span></span></code></pre></div>
+<h2 id="ブロックコメント">ブロックコメント /* … */</h2>
+<p>なし</p>
+<h2 id="javadoc-コメント">Javadoc コメント /** … */</h2>
+<p>ダブルクォーテーションまたはシングルクォーテーション3個で囲んで記述するdocstringがある。<br />
+記述場所はクラスや関数の前ではなく、後。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(a, b):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">    aとbを加算した結果を返却します</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">    複数行で記述できます</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span></code></pre></div>
+<h2 id="public-static-void-main">public static void main</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ここに処理を記述</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&#39;Hello World&#39;</span>)</span></code></pre></div>
+<h2 id="コードブロック-波括弧ブレース">コードブロック {}
+(波括弧、ブレース)</h2>
+<p>:(コロン) + 改行 +
+インデント(半角スペース4個推奨)によりコードブロックを開始し、<br />
+インデントの終了によりコードブロックの終了を表す。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_function():</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;This is my function&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_function2():</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;This is my function&quot;</span>)</span></code></pre></div>
+<h2 id="型">型</h2>
+<p>基本的な型名で異なるのは以下。 | Java | Python | |—|—| |String|str|
+|boolean|bool|</p>
+<p>また、文字列はシングルクォート、ダブルクォートどちらでも定義できる。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">str</span> <span class="op">=</span> <span class="st">&#39;文字列です&#39;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>str_2 <span class="op">=</span> <span class="st">&quot;文字列2です&quot;</span></span></code></pre></div>
+<p>boolはTrue,Falseと頭が大文字になる。</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>bool_2 <span class="op">=</span> <span class="va">False</span></span></code></pre></div>
+<h2 id="変数定義">変数定義</h2>
+<p>Javaが静的型付け言語で変数の型を宣言するのに対し、
+動的型付け言語のため変数の型は宣言しない。</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>my_number <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_number)</span></code></pre></div>
+<p>また、変数名はスネークケース推奨。</p>
+<h2 id="if">if</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> x <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;xは正の数です&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> x <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;xは負の数です&quot;</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;xは0です&quot;</span>)</span></code></pre></div>
+<h2 id="section">&amp;&amp;, ||, !</h2>
+<p>and, or, not</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> a <span class="op">==</span> b <span class="kw">and</span> b <span class="op">==</span> c:</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 処理</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> a <span class="op">==</span> <span class="dv">1</span> <span class="kw">or</span> b <span class="op">==</span> <span class="dv">2</span>:</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 処理</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> (c <span class="op">==</span> <span class="dv">3</span>):</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 処理</span></span></code></pre></div>
+<h2 id="for">for</h2>
+<ul>
+<li>構文</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode py"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> 要素 <span class="kw">in</span> イテラブルオブジェクト:</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    繰り返す処理</span></code></pre></div>
+<ul>
+<li>例</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode py"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>numbers <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">9</span>]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> number <span class="kw">in</span> numbers:</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(number)</span></code></pre></div>
+<h2 id="メソッド">メソッド</h2>
+<p>Classに属する関数で、selfを第一引数にとる。</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode py"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> メソッド名(<span class="va">self</span>, 引数リスト):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># メソッドの処理</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> 戻り値</span></code></pre></div>
+<p>クラスに属さない独立した関数もある。</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode py"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> 関数名(引数リスト):</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 関数の処理</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> 戻り値</span></code></pre></div>
+<h3 id="戻り値">戻り値</h3>
+<p>戻り値の宣言は不要。returnするだけ。</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode py"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(a, b):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span></code></pre></div>
+<p>明示的に宣言することもできる。</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode py"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(a, b) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span></code></pre></div>
+<h3 id="引数の型">引数の型</h3>
+<p>引数も戻り値同様に宣言は不要。明示的に宣言もできる。</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode py"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(a: <span class="bu">int</span>, b: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span></code></pre></div>
+<h3 id="void">void</h3>
+<p>戻り値のないメソッドはretrun不要。</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode py"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test():</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&#39;test&#39;</span>)</span></code></pre></div>
+<h2 id="exception-構文">Exception 構文</h2>
+<p>catchではなく、except,else。</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode py"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 例外が発生する可能性のあるコード</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> 例外タイプ<span class="dv">1</span>:</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 例外タイプ1が発生した場合の処理</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> 例外タイプ<span class="dv">2</span>:</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 例外タイプ2が発生した場合の処理</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 例外が発生しなかった場合の処理</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 例外の有無に関わらず実行される処理</span></span></code></pre></div>
+<h2 id="以下はまたの機会に">以下はまたの機会に。</h2>
+<h2 id="list">List</h2>
+<h2 id="map">Map</h2>
+<h2 id="package">Package</h2>
+<h2 id="import">Import</h2>
+<h2 id="class">Class</h2>
+<h2 id="extends">Extends</h2>
+<h2 id="オーバーライド">オーバーライド</h2>
+<h2 id="interface">Interface</h2>
+<h2 id="オーバーロード">オーバーロード</h2>
