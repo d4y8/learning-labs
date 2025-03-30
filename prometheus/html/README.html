@@ -25,7 +25,7 @@ id="収集したmetricsをprometheusで確認">収集したMetricsをPrometheus�
 収集したメトリクスをPrometheusで確認してみる。</p>
 <p>[Query画面]でメトリクス名を入力して[Execute]ボタンを押下する。<br />
 出力形式は[Table]か[Graph]を選択できる。以下は[Talbe]で表示した例。</p>
-<p><img src="./images/query-prometheus-metrics.png?raw=true" width="80%"></p>
+<p><img src="https://github.com/d4y8/learning-labs/blob/main/prometheus/README-images/query-prometheus-metrics.png?raw=true" width="80%"></p>
 <p>クエリ(PromQL)の詳細については<a
 href="https://prometheus.io/docs/prometheus/latest/querying/basics/">公式ドキュメント</a>を参照。</p>
 <h2
@@ -70,12 +70,12 @@ class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb8-1"><a href="
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">open</span> http://localhost:9090</span></code></pre></div>
 <p>Node Exporterで確認したメトリクス名を入力</p>
 <pre><code>node_memory_total_bytes</code></pre>
-<p><img src="./images/query-node.png?raw=true" width="80%"></p>
+<p><img src="https://github.com/d4y8/learning-labs/blob/main/prometheus/README-images/query-node.png?raw=true" width="80%"></p>
 <h4
 id="scraperが正しく動いているか確認">Scraperが正しく動いているか確認</h4>
 <p>[Status] &gt; <a
 href="http://localhost:9090/targets">[Targets]</a>にてStateが<code>UP</code>であるか確認する。
-<img src="./images/targets.png?raw=true" width="80%"></p>
+<img src="https://github.com/d4y8/learning-labs/blob/main/prometheus/README-images/targets.png?raw=true" width="80%"></p>
 <h2 id="メトリクスの理解">メトリクスの理解</h2>
 <p>メトリクスの種類については以下参照。<br />
 https://prometheus.io/docs/tutorials/understanding_metric_types/</p>
