@@ -116,4 +116,3 @@ docker run --rm -d \
     -v $(pwd)/config:/etc/prometheus \
     prom/prometheus
 ```
-
