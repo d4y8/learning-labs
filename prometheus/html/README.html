@@ -1,0 +1,95 @@
+<h1 id="prometheusをさわってみる">Prometheusをさわってみる</h1>
+<p>Prometheusをチュートリアルに沿って簡単にさわってみる。</p>
+<h2 id="チュートリアル">チュートリアル</h2>
+<ul>
+<li>https://prometheus.io/docs/tutorials/getting_started/</li>
+<li>https://prometheus.io/docs/prometheus/latest/getting_started/</li>
+</ul>
+<h2 id="prometheusの起動">Prometheusの起動</h2>
+<h3 id="参考">参考</h3>
+<p>https://prometheus.io/docs/prometheus/latest/installation/</p>
+<h3 id="dockerでprometheusを起動する">DockerでPrometheusを起動する</h3>
+<p>デフォルトでそのまま起動。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-p</span> 9090:9090 prom/prometheus</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">open</span> http://localhost:9090</span></code></pre></div>
+<p>デフォルトの設定はprometheus.ymlで確認できる。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="op">&lt;</span>CONTAINER_ID<span class="op">&gt;</span> cat /etc/prometheus/prometheus.yml</span></code></pre></div>
+<h3
+id="prometheus自身のメトリクスをブラウザで確認">Prometheus自身のメトリクスをブラウザで確認</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">open</span> http://localhost:9090/metrics</span></code></pre></div>
+<p>出力されるメトリクスは<a
+href="https://github.com/d4y8/learning-labs/blob/main/prometheus/metrics.log"><code>metrics.log</code></a>参照</p>
+<h3
+id="収集したmetricsをprometheusで確認">収集したMetricsをPrometheusで確認</h3>
+<p>デフォルトの設定で起動すると、Prometheus自身のメトリクスを収集するように設定されているため
+収集したメトリクスをPrometheusで確認してみる。</p>
+<p>[Query画面]でメトリクス名を入力して[Execute]ボタンを押下する。<br />
+出力形式は[Table]か[Graph]を選択できる。以下は[Talbe]で表示した例。</p>
+<p><img src="./images/query-prometheus-metrics.png?raw=true" width="80%"></p>
+<p>クエリ(PromQL)の詳細については<a
+href="https://prometheus.io/docs/prometheus/latest/querying/basics/">公式ドキュメント</a>を参照。</p>
+<h2
+id="prometheusがスクレイピングするtargetを追加">PrometheusがスクレイピングするTargetを追加</h2>
+<p>Prometheus以外のメトリクス収集対象を追加してみる。</p>
+<h3
+id="メトリクスをnodeモジュールから収集する">メトリクスをNodeモジュールから収集する</h3>
+<p>チュートリアルのNodeモジュールをDockerで実行しようとすると
+下記のエラーとなり起動できない。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--net</span><span class="op">=</span><span class="st">&quot;host&quot;</span> <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--pid</span><span class="op">=</span><span class="st">&quot;host&quot;</span> <span class="dt">\</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> <span class="st">&quot;/:/host:ro,rslave&quot;</span> <span class="dt">\</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  quay.io/prometheus/node-exporter:latest <span class="dt">\</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--path.rootfs</span><span class="op">=</span>/host</span></code></pre></div>
+<pre class="log"><code>docker: Error response from daemon: path / is mounted on / but it is not a shared or slave mount.</code></pre>
+<h4
+id="原因node-exporterのイメージはlinux用でmacosに対応していない">原因：node-exporterのイメージはLinux用でMacOSに対応していない。</h4>
+<h4
+id="回避node-exporterのバイナリをローカルで起動する">回避：node-exporterのバイナリをローカルで起動する。</h4>
+<p><a href="https://prometheus.io/download/#node_exporter">Node
+Exporterのダウンロード</a></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ./node_exporter-1.8.2.darwin-amd64</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./node_exporter</span></span></code></pre></div>
+<pre><code>open http://localhost:9100/metrics</code></pre>
+<h4 id="収集対象に追加する">収集対象に追加する</h4>
+<p>prometheus.ymlに追加する。</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">job_name</span><span class="kw">:</span><span class="at"> node</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">static_configs</span><span class="kw">:</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">targets</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">    # - localhost:9100 NG</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> host.docker.internal:9100</span><span class="co"> # コンテナからホストのサービスへの通信のためlocalhostではなく、host.docker.internal</span></span></code></pre></div>
+<h4 id="prometheus再起動">Prometheus再起動</h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">-d</span> <span class="dt">\</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-p</span> 9090:9090 <span class="dt">\</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>/config:/etc/prometheus <span class="dt">\</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    prom/prometheus</span></code></pre></div>
+<h4 id="収集できているか確認">収集できているか確認</h4>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">open</span> http://localhost:9090</span></code></pre></div>
+<p>Node Exporterで確認したメトリクス名を入力</p>
+<pre><code>node_memory_total_bytes</code></pre>
+<p><img src="./images/query-node.png?raw=true" width="80%"></p>
+<h4
+id="scraperが正しく動いているか確認">Scraperが正しく動いているか確認</h4>
+<p>[Status] &gt; <a
+href="http://localhost:9090/targets">[Targets]</a>にてStateが<code>UP</code>であるか確認する。
+<img src="./images/targets.png?raw=true" width="80%"></p>
+<h2 id="メトリクスの理解">メトリクスの理解</h2>
+<p>メトリクスの種類については以下参照。<br />
+https://prometheus.io/docs/tutorials/understanding_metric_types/</p>
+<h2 id="その他---docker実行時のバインドについて">その他 -
+docker実行時のバインドについて</h2>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 設定ファイルをバインド</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">-d</span> <span class="dt">\</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-p</span> 9090:9090 <span class="dt">\</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>/config/prometheus.yml:/etc/prometheus/prometheus.yml <span class="dt">\</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    prom/prometheus</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ディレクトリをバインドする場合</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">-d</span> <span class="dt">\</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">-p</span> 9090:9090 <span class="dt">\</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>/config:/etc/prometheus <span class="dt">\</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    prom/prometheus</span></code></pre></div>
