@@ -33,7 +33,7 @@ open http://localhost:9090/metrics
 [Query画面]でメトリクス名を入力して[Execute]ボタンを押下する。  
 出力形式は[Table]か[Graph]を選択できる。以下は[Talbe]で表示した例。
 
-  <img src="./images/query-prometheus-metrics.png" width="80%">
+  <img src="./README-images/query-prometheus-metrics.png" width="80%">
 
 クエリ(PromQL)の詳細については[公式ドキュメント](https://prometheus.io/docs/prometheus/latest/querying/basics/)を参照。
 
@@ -92,11 +92,11 @@ Node Exporterで確認したメトリクス名を入力
 ```
 node_memory_total_bytes
 ```
-<img src="./images/query-node.png" width="80%">
+<img src="./README-images/query-node.png" width="80%">
 
 #### Scraperが正しく動いているか確認
 [Status] > [\[Targets\]](http://localhost:9090/targets)にてStateが`UP`であるか確認する。
-<img src="./images/targets.png" width="80%">
+<img src="./README-images/targets.png" width="80%">
 
 ## メトリクスの理解
 メトリクスの種類については以下参照。  
