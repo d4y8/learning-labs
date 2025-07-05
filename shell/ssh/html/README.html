@@ -1,0 +1,130 @@
+<h1 id="sshの公開鍵による認証を試す">SSHの公開鍵による認証を試す</h1>
+<h2
+id="sshサーバー用イメージの準備起動">SSHサーバー用イメージの準備・起動</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull testcontainers/sshd:1.3.0</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-d</span> <span class="at">--name</span> server testcontainers/sshd:1.3.0</span></code></pre></div>
+<h2
+id="sshクライアント用イメージの準備">SSHクライアント用イメージの準備</h2>
+<p>Alpineをベースにしてopenssh-clientをインストールしたイメージを作成。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dockerfile作成</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="op">&lt;&lt;EOF&gt;</span>Dockerfile</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM alpine:latest</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st">RUN apk add --no-cache openssh-client</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="op">EOF</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># イメージのビルド</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> ssh-client .</span></code></pre></div>
+<h2 id="sshサーバーのip確認">SSHサーバーのIP確認</h2>
+<p><code>172.17.0.2</code></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker exec <span class="at">-it</span> server ifconfig</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">eth0</span>      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02  </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>          <span class="ex">inet</span> addr:172.17.0.2  Bcast:172.17.255.255  Mask:255.255.0.0</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>          <span class="ex">UP</span> BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>          <span class="ex">RX</span> packets:1735 errors:0 dropped:0 overruns:0 frame:0</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>          <span class="ex">TX</span> packets:1628 errors:0 dropped:0 overruns:0 carrier:0</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>          <span class="ex">collisions:0</span> txqueuelen:0 </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>          <span class="ex">RX</span> bytes:189746 <span class="er">(</span><span class="ex">185.2</span> KiB<span class="kw">)</span>  <span class="ex">TX</span> bytes:184638 <span class="er">(</span><span class="ex">180.3</span> KiB<span class="kw">)</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ex">lo</span>        Link encap:Local Loopback  </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>          <span class="ex">inet</span> addr:127.0.0.1  Mask:255.0.0.0</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>          <span class="ex">UP</span> LOOPBACK RUNNING  MTU:65536  Metric:1</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>          <span class="ex">RX</span> packets:0 errors:0 dropped:0 overruns:0 frame:0</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>          <span class="ex">TX</span> packets:0 errors:0 dropped:0 overruns:0 carrier:0</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>          <span class="ex">collisions:0</span> txqueuelen:1000 </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>          <span class="ex">RX</span> bytes:0 <span class="er">(</span><span class="ex">0.0</span> B<span class="kw">)</span>  <span class="ex">TX</span> bytes:0 <span class="er">(</span><span class="ex">0.0</span> B<span class="kw">)</span></span></code></pre></div>
+<h2 id="ssh接続---パスワード認証">SSH接続 - パスワード認証</h2>
+<p>まずは普通にパスワード認証で接続してみる。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SSHクライアントを起動してシェルを取得</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker run <span class="at">--rm</span> <span class="at">--name</span> client <span class="at">-it</span> ssh-client ash</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SSHサーバーへ接続</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Are you sure you want to continue connecting (yes/no/[fingerprint])?はyes</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># rootのパスワードはroot</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ssh root@172.17.0.2</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">The</span> authenticity of host <span class="st">&#39;172.17.0.2 (172.17.0.2)&#39;</span> can<span class="st">&#39;t be established.</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">ED25519 key fingerprint is SHA256:FZig6IVRte6eR9g34cdexVGYaK8qrJbvPEJ4S/HNCtA.</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">This key is not known by any other names.</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="st">Warning: Permanently added &#39;</span>172.17.0.2<span class="st">&#39; (ED25519) to the list of known hosts.</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="st">root@172.17.0.2&#39;</span>s password: </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="ex">Welcome</span> to Alpine!</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="ex">The</span> Alpine Wiki contains a large amount of how-to guides and general</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="ex">information</span> about administrating Alpine systems.</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="ex">See</span> <span class="op">&lt;</span>https://wiki.alpinelinux.org/<span class="op">&gt;</span>.</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="ex">You</span> can setup the system with the command: setup-alpine</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="ex">You</span> may change this message by editing /etc/motd.</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="ex">3b6bc5001a55:~#</span> </span></code></pre></div>
+<h3 id="memo---rootのパスワード確認">MEMO - rootのパスワード確認</h3>
+<p>https://hub.docker.com/layers/testcontainers/sshd/1.3.0/images/sha256-7dc5a534990619c4c785003dc19352ad651a40fb910ea69d24c24b1a93c3e6bc</p>
+<h2
+id="sshクライアントで秘密鍵公開鍵の作成">SSHクライアントで秘密鍵、公開鍵の作成</h2>
+<p>次に公開鍵による接続のため、秘密鍵、公開鍵を作成する。
+パスフレーズは入力しない。</p>
+<p>ホームディレクトリ配下の.sshディレクトリに秘密鍵<code>id_ed25519</code>、公開鍵は<code>id_ed25519.pub</code>で作成される。<br />
+ed25519はデフォルトの暗号化方式名。オプションでrsaなども指定できる。</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ssh-keygen</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Generating</span> public/private ed25519 key pair.</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Enter</span> file in which to save the key <span class="er">(</span><span class="ex">/root/.ssh/id_ed25519</span><span class="kw">)</span><span class="bu">:</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Enter</span> passphrase for <span class="st">&quot;/root/.ssh/id_ed25519&quot;</span> <span class="er">(</span><span class="ex">empty</span> for no passphrase<span class="kw">)</span><span class="bu">:</span> </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Enter</span> same passphrase again: </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Your</span> identification has been saved in /root/.ssh/id_ed25519</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Your</span> public key has been saved in /root/.ssh/id_ed25519.pub</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="ex">The</span> key fingerprint is:</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="ex">SHA256:xOgvB1YSXw4tBSsqEHjEuTHQThe4O+Zd9hXNtIQ4x68</span> root@8c430b883d4c</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="ex">The</span> key<span class="st">&#39;s randomart image is:</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="st">+--[ED25519 256]--+</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="st">|+=.o... o*o.     |</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="st">|..X .  =+== o    |</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st">|.+ *  + *+.* .   |</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="st">| .+  o =  . =    |</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="st">|  ... + S  o     |</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="st">|  +. .oo  E      |</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="st">| o o o..o.       |</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="st">|  . .  o.        |</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="st">|                 |</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="st">+----[SHA256]-----+</span></span></code></pre></div>
+<h2
+id="sshクライアントで作成した公開鍵をsshサーバーへ登録">SSHクライアントで作成した公開鍵をSSHサーバーへ登録</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 鍵の名前やパスはデフォルトで作成したので指定しなくて良い。</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ssh-copy-id root@172.17.0.2</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="ex">/usr/bin/ssh-copy-id:</span> INFO: Source of key<span class="er">(</span><span class="ex">s</span><span class="kw">)</span> <span class="ex">to</span> be installed: <span class="st">&quot;/root/.ssh/id_ed25519.pub&quot;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ex">/usr/bin/ssh-copy-id:</span> INFO: attempting to log in with the new key<span class="er">(</span><span class="ex">s</span><span class="kw">)</span><span class="ex">,</span> to filter out any that are already installed</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="ex">expr:</span> warning: <span class="st">&#39;^ERROR: &#39;</span>: using <span class="st">&#39;^&#39;</span> as the first character</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="ex">of</span> a basic regular expression is not portable<span class="kw">;</span> <span class="ex">it</span> is ignored</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="ex">/usr/bin/ssh-copy-id:</span> INFO: 1 key<span class="er">(</span><span class="ex">s</span><span class="kw">)</span> <span class="ex">remain</span> to be installed <span class="at">--</span> if you are prompted now it is to install the new keys</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="ex">root@172.17.0.2</span><span class="st">&#39;s password: </span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="st">Number of key(s) added: 1</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="st">Now try logging into the machine, with: &quot;ssh &#39;</span><span class="ex">root@172.17.0.2</span><span class="st">&#39;&quot;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="st">and check to make sure that only the key(s) you wanted were added.</span></span></code></pre></div>
+<h2 id="公開鍵で接続">公開鍵で接続</h2>
+<p>SSHクライアントからSSH接続するとパスワードを求められずに接続できる。</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> root@172.17.0.2</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Welcome</span> to Alpine!</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">The</span> Alpine Wiki contains a large amount of how-to guides and general</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="ex">information</span> about administrating Alpine systems.</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="ex">See</span> <span class="op">&lt;</span>https://wiki.alpinelinux.org/<span class="op">&gt;</span>.</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="ex">You</span> can setup the system with the command: setup-alpine</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="ex">You</span> may change this message by editing /etc/motd.</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="ex">622fd82e0aca:~#</span> </span></code></pre></div>
+<h3 id="memo">MEMO</h3>
+<p>SSHサーバーに登録した公開鍵はホームディレクトリ配下の.ssh/authorized_keysに登録される。</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> .ssh/authorized_keys </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ssh-ed25519</span> AAAAC3NzaC1lZDI1NTE5AAAAIHUex5dAF1irFy2VWvLcbjXhAgdL13NaIkpFrZu6Kx4f root@9e1dcdb08e8b</span></code></pre></div>
+<h2 id="後片付け">後片付け</h2>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> rm <span class="at">-f</span> server</span></code></pre></div>
