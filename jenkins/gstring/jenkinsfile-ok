@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Hello') {
+            steps {
+                script {
+
+                    def NAME = "world"
+                    sh "echo Hello! $NAME"
+
+                    sh """
+                        echo Hello! $NAME
+                        echo Hello! $NAME
+                    """
+                    
+                    // Using environment variable
+                    env.NAME = "world"
+                    sh 'echo Hello! $NAME'
+                }
+            }
+        }
+    }
+}

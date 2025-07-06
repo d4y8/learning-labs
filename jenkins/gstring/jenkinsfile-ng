@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Hello') {
+            steps {
+                script {
+                    def NAME = "world"
+                    sh 'echo Hello! $NAME'
+                }
+            }
+        }
+    }
+}
