@@ -1,0 +1,37 @@
+<h1
+id="jenkins-pluginのversion-numberでoverridebuildsalltimeを指定するとインクリメントされない">Jenkins
+PluginのVersion
+NumberでoverrideBuildsAllTimeを指定するとインクリメントされない</h1>
+<p>Jenkins Pluginの Version
+Numberで[BUILDS_ALL_TIME]を利用する場合、<br />
+<code>overrideBuildsAllTime</code>を指定すると番号がインクリメントされない。</p>
+<p>通常、[BUILDS_ALL_TIME]は1から始まる。<br />
+これを1ではない数値から始めたい場合、<br />
+例えばパイプラインを作り直した際に続きから再開したいといった場合、<br />
+<code>overrideBuildsAllTime: 10</code>などと指定することで実現できる。</p>
+<p>が、これを指定すると次のビルドでも再び<code>10</code>と採番されてしまう。</p>
+<p>解決策としては一度<code>overrideBuildsAllTime</code>を指定して実行したら、<br />
+次回以降は<code>overrideBuildsAllTime</code>を削除してしまえば良い。</p>
+<h2 id="参考---version-number-plugin">参考 - Version Number Plugin</h2>
+<ul>
+<li>https://plugins.jenkins.io/versionnumber/</li>
+<li>https://www.jenkins.io/doc/pipeline/steps/versionnumber/</li>
+</ul>
+<h2 id="version-number-pluginバージョン">Version Number
+Pluginバージョン</h2>
+<ul>
+<li>234.v315d3b_3cb_fb_5</li>
+</ul>
+<h2 id="実施のパイプラインの動き">実施のパイプラインの動き</h2>
+<p>Pipelineの定義</p>
+<pre class="jenkinsfile"><code>!include jenkinsfile</code></pre>
+<p><code>overrideBuildsAllTime: 10</code>を指定して実行。<br />
+意図通り10と採番される。</p>
+<p><img src="https://api.github.com/repos/d4y8/learning-labs/blob/main/jenkins/plugin-versionnumber/README-images/version-number-output-1.png?raw=true"></p>
+<p>もう一度ビルド実行する。</p>
+<p>すると、インクリメントされず前回と同じ番号となる。</p>
+<p><img src="https://api.github.com/repos/d4y8/learning-labs/blob/main/jenkins/plugin-versionnumber/README-images/version-number-output-2.png?raw=true"></p>
+<p>回避策としてoverrideBuildsAllTimeを削除し、ビルド実行する。</p>
+<pre class="jenkinsfile"><code>VERION_NUMBER = VersionNumber(versionNumberString: &#39;1.0.0+${BUILDS_ALL_TIME}&#39;)</code></pre>
+<p><img src="https://api.github.com/repos/d4y8/learning-labs/blob/main/jenkins/plugin-versionnumber/README-images/version-number-output-3.png?raw=true"></p>
+<p>続きの11にインクリメントされることが確認できた。</p>
