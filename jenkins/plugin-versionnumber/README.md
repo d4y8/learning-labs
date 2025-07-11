@@ -24,8 +24,10 @@ Jenkins Pluginの Version Numberで[BUILDS_ALL_TIME]を利用する場合、
 
 Pipelineの定義
 ```jenkinsfile
-!include jenkins/plugin-versionnumber/Jenkinsfile
+!include .github/workflows/insert-post-to-google-blogger.yaml
 ```
+
+!include jenkins/plugin-versionnumber/Jenkinsfile
 
 `overrideBuildsAllTime: 10`を指定して実行。  
 意図通り10と採番される。
