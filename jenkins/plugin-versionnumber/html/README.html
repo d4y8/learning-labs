@@ -27,11 +27,11 @@ Pluginバージョン</h2>
 <pre class="jenkinsfile"><code>!include jenkins/plugin-versionnumber/Jenkinsfile</code></pre>
 <p><code>overrideBuildsAllTime: 10</code>を指定して実行。<br />
 意図通り10と採番される。</p>
-<p><img src="https://api.github.com/repos/d4y8/learning-labs/blob/main/jenkins/plugin-versionnumber/README-images/version-number-output-1.png?raw=true"></p>
+<p><img src="https://github.com/d4y8/learning-labs/blob/main/jenkins/plugin-versionnumber/README-images/version-number-output-1.png?raw=true"></p>
 <p>もう一度ビルド実行する。</p>
 <p>すると、インクリメントされず前回と同じ番号となる。</p>
-<p><img src="https://api.github.com/repos/d4y8/learning-labs/blob/main/jenkins/plugin-versionnumber/README-images/version-number-output-2.png?raw=true"></p>
+<p><img src="https://github.com/d4y8/learning-labs/blob/main/jenkins/plugin-versionnumber/README-images/version-number-output-2.png?raw=true"></p>
 <p>回避策としてoverrideBuildsAllTimeを削除し、ビルド実行する。</p>
 <pre class="jenkinsfile"><code>VERION_NUMBER = VersionNumber(versionNumberString: &#39;1.0.0+${BUILDS_ALL_TIME}&#39;)</code></pre>
-<p><img src="https://api.github.com/repos/d4y8/learning-labs/blob/main/jenkins/plugin-versionnumber/README-images/version-number-output-3.png?raw=true"></p>
+<p><img src="https://github.com/d4y8/learning-labs/blob/main/jenkins/plugin-versionnumber/README-images/version-number-output-3.png?raw=true"></p>
 <p>続きの11にインクリメントされることが確認できた。</p>
