@@ -24,7 +24,7 @@ Jenkins Pluginの Version Numberで[BUILDS_ALL_TIME]を利用する場合、
 
 Pipelineの定義
 ```jenkinsfile
-!include ./Jenkinsfile
+!include jenkins/plugin-versionnumber/Jenkinsfile
 ```
 
 `overrideBuildsAllTime: 10`を指定して実行。  
