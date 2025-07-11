@@ -20,11 +20,11 @@ Jenkins Pluginの Version Numberで[BUILDS_ALL_TIME]を利用する場合、
 ## Version Number Pluginバージョン
 - 234.v315d3b_3cb_fb_5
 
-## 実施のパイプラインの動き
+## パイプラインの検証
 
 Pipelineの定義
 ```jenkinsfile
-!include jenkinsfile
+!include Jenkinsfile
 ```
 
 `overrideBuildsAllTime: 10`を指定して実行。  
