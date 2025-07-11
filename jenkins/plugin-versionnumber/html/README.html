@@ -24,100 +24,22 @@ Pluginバージョン</h2>
 </ul>
 <h2 id="パイプラインの検証">パイプラインの検証</h2>
 <p>Pipelineの定義</p>
-<pre class="jenkinsfile"><code>name: Insert post to Google Blogger
+<pre class="jenkinsfile"><code>pipeline {
+    agent any
 
-on:
-  push:
-    branches: 
-    - main
-    paths:
-    - &#39;**/*.md&#39;
-  workflow_dispatch:
-
-jobs:
-  call-blogger-api:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: &#39;write&#39;
-    steps:
-      - uses: actions/checkout@v4
-        with: 
-          fetch-depth: 2
-      - uses: actions/setup-python@v5
-        with:
-          python-version: &#39;3.13.1&#39;
-      - name: Convert Markdown to HTML
-        env:
-            GITHUB_EVENT_BEFORE: ${{ github.event.before }}
-            # GITHUB_EVENT_REPOSITORY_URL: ${{ github.event.repository.url}}
-        run: |
-          set -eux
-          env
-          sudo apt-get install -y pandoc
-          pip install --user pandoc-include
-
-          diff_list=$(git diff --name-only ${GITHUB_EVENT_BEFORE}..HEAD)
-
-          for file in $diff_list; do
-            if [[ ${file} != *.md ]]; then
-              continue
-            fi
-            
-            dir_name=$(dirname ${file})
-            html_dir=${dir_name}/html
-            mkdir -p ${html_dir}
-
-            # md -&gt; html変換
-            html_file=${html_dir}/$(basename &quot;${file}&quot; .md).html
-            # pandoc -f markdown -t html &quot;${file}&quot; &gt; ${html_file}
-            pandoc -f markdown -t html --filter pandoc-include &quot;${file}&quot; &gt; ${html_file}
-
-            # img パス置換
-            # https://github.com/d4y8/learning-labs/blob/main/jenkins/plugin-versionnumber/README-images
-            # ↓
-            # https://github.com/d4y8/learning-labs/blob/main/&lt;MARKDOWN_DIR_PATH&gt;/README-images
-
-            before_path=&quot;\.\/README-images&quot;
-
-            after_path=&quot;${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/main/${dir_name}/README-images&quot;
-            after_path=${after_path//\//\\/}
-            after_path=${after_path//./\\.}
-            after_path=${after_path//\?/\\\?}
-
-            sed -i &#39;s/&#39;${before_path}&#39;/&#39;${after_path}&#39;/g&#39; ${html_file}
-
-            before_string=&quot;\.png\&quot;&quot;
-            after_string=&quot;\.png\?raw=true\&quot;&quot;
-
-            sed -i &#39;s/&#39;${before_string}&#39;/&#39;${after_string}&#39;/g&#39; ${html_file}
-
-            cat ${html_file}
-            echo ${html_file} &gt;&gt; html.txt
-          done
-
-          if [[ -n ${html_file} ]]; then
-            git config user.name  &quot;actions-user&quot;
-            git config user.email &quot;action@github.com&quot;
-            git add **/*.html
-            git commit -m &quot;Converted Markdown to HTML&quot;
-            git push
-          fi
-
-      - name: Set up authentication
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-
-      - name: Install dependencies
-        run: pip install google-api-python-client
-
-      - name: Call Blogger API
-        env: 
-          BLOG_ID: ${{ secrets.BLOG_ID }}
-        run: |
-          python .github/scripts/blog_post.py
+    stages {
+        stage(&#39;Verion Number&#39;) {
+            environment {
+                // VERION_NUMBER = VersionNumber(versionNumberString: &#39;1.0.0+${BUILDS_ALL_TIME}&#39;)
+                VERION_NUMBER = VersionNumber(overrideBuildsAllTime: &#39;10&#39;, versionNumberString: &#39;1.0.0+${BUILDS_ALL_TIME}&#39;)
+            }
+            steps {
+                echo &quot;version number: ${env.VERION_NUMBER}&quot;
+            }
+        }
+    }
+}
 </code></pre>
-<p>!include jenkins/plugin-versionnumber/Jenkinsfile</p>
 <p><code>overrideBuildsAllTime: 10</code>を指定して実行。<br />
 意図通り10と採番される。</p>
 <p><img src="https://github.com/d4y8/learning-labs/blob/main/jenkins/plugin-versionnumber/README-images/version-number-output-1.png?raw=true"></p>
