@@ -23,7 +23,7 @@ jobs:
       - name: Convert Markdown to HTML
         env:
             GITHUB_EVENT_BEFORE: ${{ github.event.before }}
-            GITHUB_EVENT_REPOSITORY_URL: ${{ github.event.repository.url}}
+            # GITHUB_EVENT_REPOSITORY_URL: ${{ github.event.repository.url}}
         run: |
           set -eux
           env
@@ -53,7 +53,7 @@ jobs:
 
             before_path="\.\/README-images"
 
-            after_path="${GITHUB_EVENT_REPOSITORY_URL}/blob/main/${dir_name}/README-images"
+            after_path="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/main/${dir_name}/README-images"
             after_path=${after_path//\//\\/}
             after_path=${after_path//./\\.}
             after_path=${after_path//\?/\\\?}
