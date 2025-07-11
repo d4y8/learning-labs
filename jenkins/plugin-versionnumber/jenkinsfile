@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Verion Number') {
+            environment {
+                // VERION_NUMBER = VersionNumber(versionNumberString: '1.0.0+${BUILDS_ALL_TIME}')
+                VERION_NUMBER = VersionNumber(overrideBuildsAllTime: '10', versionNumberString: '1.0.0+${BUILDS_ALL_TIME}')
+            }
+            steps {
+                echo "version number: ${env.VERION_NUMBER}"
+            }
+        }
+    }
+}
