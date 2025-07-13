@@ -51,14 +51,14 @@ jobs:
             # ↓
             # https://github.com/d4y8/learning-labs/blob/main/<MARKDOWN_DIR_PATH>/README-images
 
-            before_path="(|\./)README-images"
+            before_path="(.|\.\/)README-images"
 
             after_path="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/main/${dir_name}/README-images"
             after_path=${after_path//\//\\/}
             after_path=${after_path//./\\.}
             after_path=${after_path//\?/\\\?}
 
-            sed -i 's/'${before_path}'/'${after_path}'/g' ${html_file}
+            sed -iE 's/'${before_path}'/'${after_path}'/g' ${html_file}
 
             before_string="\.png\""
             after_string="\.png\?raw=true\""
