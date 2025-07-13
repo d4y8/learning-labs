@@ -47,11 +47,11 @@ jobs:
             pandoc -f markdown -t html --filter pandoc-include "${file}" > ${html_file}
 
             # img パス置換
-            # ./README-images
+            # ./README-images or README-images
             # ↓
             # https://github.com/d4y8/learning-labs/blob/main/<MARKDOWN_DIR_PATH>/README-images
 
-            before_path="\.\/README-images"
+            before_path="(|\./)README-images"
 
             after_path="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/main/${dir_name}/README-images"
             after_path=${after_path//\//\\/}
