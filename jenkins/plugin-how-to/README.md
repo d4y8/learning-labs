@@ -17,4 +17,3 @@ Pipelineとしての記述は基本的にこのページではなく、[Links]�
 ![](./README-images/plugin-pipeline-step-reference.png)
 
 フリースタイルとパイプラインのジョブ定義の違いを認識するというのが前提として必要。
-
