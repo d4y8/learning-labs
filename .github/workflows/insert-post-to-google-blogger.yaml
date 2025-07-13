@@ -58,7 +58,7 @@ jobs:
             after_path=${after_path//./\\.}
             after_path=${after_path//\?/\\\?}
 
-            sed -iE 's/'${before_path}'/'${after_path}'/g' ${html_file}
+            sed -E -i 's/'${before_path}'/'${after_path}'/g' ${html_file}
 
             before_string="\.png\""
             after_string="\.png\?raw=true\""
