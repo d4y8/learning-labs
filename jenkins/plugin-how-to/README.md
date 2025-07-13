@@ -11,7 +11,6 @@ JenkinsのPluginについて公式ページで使い方を調べていてわか�
 
 ![](./README-images/plugin-freestyle-gui.png)
 
-
 Pipelineとしての記述は基本的にこのページではなく、[Links]の[Pipeline Step Reference](https://www.jenkins.io/doc/pipeline/steps/publish-over-ssh/)に記述されている。
 
 ![](./README-images/plugin-pipeline-step-reference-link.png)
