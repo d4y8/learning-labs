@@ -1,0 +1,43 @@
+concurrent = 1
+check_interval = 0
+shutdown_timeout = 0
+
+[session_server]
+  session_timeout = 1800
+
+[[runners]]
+  name = "sample"
+  url = "https://gitlab.com"
+  id = 49506675
+  token = "glrt-KIKqUm4ga2v30feT2T4mGG86MQpwOnFxY2g3CnQ6Mwp1OjZvcWl1Fw.01.1i1a7x83v"
+  token_obtained_at = 2025-08-16T07:35:39Z
+  token_expires_at = 0001-01-01T00:00:00Z
+  executor = "kubernetes"
+  [runners.cache]
+    MaxUploadedArchiveSize = 0
+    [runners.cache.s3]
+    [runners.cache.gcs]
+    [runners.cache.azure]
+  [runners.kubernetes]
+    host = ""
+    bearer_token_overwrite_allowed = false
+    image = ""
+    namespace = "gitlab-runner"
+    namespace_overwrite_allowed = ""
+    namespace_per_job = false
+    node_selector_overwrite_allowed = ""
+    node_tolerations_overwrite_allowed = ""
+    pod_labels_overwrite_allowed = ""
+    service_account_overwrite_allowed = ""
+    pod_annotations_overwrite_allowed = ""
+    helper_image = "registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:arm64-latest"
+    [runners.kubernetes.init_permissions_container_security_context]
+      [runners.kubernetes.init_permissions_container_security_context.capabilities]
+    [runners.kubernetes.build_container_security_context]
+      [runners.kubernetes.build_container_security_context.capabilities]
+    [runners.kubernetes.helper_container_security_context]
+      [runners.kubernetes.helper_container_security_context.capabilities]
+    [runners.kubernetes.service_container_security_context]
+      [runners.kubernetes.service_container_security_context.capabilities]
+    [runners.kubernetes.volumes]
+    [runners.kubernetes.dns_config]

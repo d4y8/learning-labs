@@ -1,0 +1,10 @@
+stages:
+  - build
+
+build-code-job:
+  stage: build
+  image: busybox:latest
+  tags:
+    - sample
+  script:
+    - echo "GitLab Runner Test"
