@@ -1,0 +1,105 @@
+<h1
+id="gitlabからローカルに構築したgitlab-runnerを実行する">GitLabからローカルに構築したGitLab
+Runnerを実行する</h1>
+<p>SaaSのGitLabのShared Runnerを使おうとしたところ、Credit
+Cardの登録をしないと使えないようだった。</p>
+<pre class="log"><code>Credit card required to be on file in order to create a pipeline</code></pre>
+<p><img src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/unable-to-create-pipeline.png?raw=true" /></p>
+<p>なのでGitLab Runnerをローカルのminikubeに構築し、Project
+Runnerに割り当てて利用してみた。</p>
+<h2 id="gitlab-runnerの構築">GitLab Runnerの構築</h2>
+<p>minikubeに構築する。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kubectl create ns gitlab-runner</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kubectl <span class="at">-n</span> gitlab-runner create deploy gitlab-runner <span class="at">--image</span> gitlab/gitlab-runner:latest</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kubectl <span class="at">-n</span> gitlab-runner apply <span class="at">-f</span> role.yaml</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kubectl <span class="at">-n</span> gitlab-runner get pod</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">NAME</span>                             READY   STATUS    RESTARTS   AGE</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">gitlab-runner-785c445c6c-bpwxb</span>   1/1     Running   0          41s</span></code></pre></div>
+<h2
+id="ローカルgitlab-runnerをproject-runnerとして紐付ける">ローカルGitLab
+RUnnerをProject Runnerとして紐付ける</h2>
+<p>GitLabのWebUIで[Settings] &gt; [CI/CD] を選択。 [Runners]から[Create
+Project Runner]を押下。 <img
+src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/project-runner-create.png?raw=true" /></p>
+<p>[Tags]のみ入力し、[Create Runner]を押下してRunnerを作成。 <img
+src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/project-runner-create2-2.png?raw=true" /></p>
+<p>Stepの手順通りに進め、ローカル環境に構築したGitLab Runnerと紐付ける。
+<img
+src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/project-runner-create-register-runner.png?raw=true" /></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># シェルを取得</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kubectl <span class="at">-n</span> gitlab-runner exec <span class="at">-it</span> deploy/gitlab-runner <span class="at">--</span> bash</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RunnerとGitLabの紐付けを対話形式で実行。ExecutorはKubernetes。</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> gitlab-runner register  <span class="at">--url</span> https://gitlab.com  <span class="at">--token</span> glrt-buJ2X4c2CRTGJ608Cazo8W86MQpwOnFxY2g3CnQ6Mwp1OjZvcWl1Fw.01.1i1sr9dgz</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Runtime</span> platform                                    arch=arm64 os=linux pid=66 revision=cc489270 version=18.2.1</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Running</span> in system-mode.                            </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                                                   </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Enter</span> the GitLab instance URL <span class="er">(</span><span class="cf">for</span> example<span class="ex">,</span> https://gitlab.com/<span class="kw">)</span><span class="bu">:</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ex">[https://gitlab.com]:</span> https://gitlab.com</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Verifying</span> runner... is valid                        correlation_id=6b84fc318565600daf7649f9cb52841b runner=KIKqUm4ga</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="ex">Enter</span> a name for the runner. This is stored only in the local config.toml file:</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="ex">[gitlab-runner-785c445c6c-bpwxb]:</span> sample</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="ex">Enter</span> an executor: docker, instance, virtualbox, docker-windows, docker+machine, kubernetes, docker-autoscaler, custom, shell, ssh, parallels:</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="ex">kubernetes</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ex">Runner</span> registered successfully. Feel free to start it, but if it<span class="st">&#39;s running already the config should be automatically reloaded!</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="st"> </span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="st">Configuration (with the authentication token) was saved in &quot;/etc/gitlab-runner/config.toml&quot; </span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 正常に登録できていることを確認</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> gitlab-runner list</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Runtime</span> platform                                    arch=arm64 os=linux pid=80 revision=cc489270 version=18.2.1</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Listing</span> configured runners                          ConfigFile=/etc/gitlab-runner/config.toml</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">sample</span>                                              Executor=kubernetes Token=glrt-buJ2X4c2CRTGJ608Cazo8W86MQpwOnFxY2g3CnQ6Mwp1OjZvcWl1Fw.01.1i1sr9dgz URL=https://gitlab.com</span></code></pre></div>
+<p>WebUIでも正しく割り当てられていること(緑丸マーク)が確認できる。 <img
+src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/project-runner-create3.png?raw=true" /></p>
+<h2 id="gitlab-ci.ymlの内容">.gitlab-ci.ymlの内容</h2>
+<p>シンプルにメッセージを出力するだけ。<br />
+[tags]に作成したProject RunnerのTagを設定する。</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stages</span><span class="kw">:</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> build</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">build-code-job</span><span class="kw">:</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> build</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">image</span><span class="kw">:</span><span class="at"> busybox:latest</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">tags</span><span class="kw">:</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> sample</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">script</span><span class="kw">:</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> echo &quot;GitLab Runner Test&quot;</span></span></code></pre></div>
+<h2 id="pipelineの作成jobの実行">Pipelineの作成、Jobの実行</h2>
+<p>[Build] &gt; [Pipelines] &gt; [New Pipeline]を押下。<br />
+[Run new pipeline]のページに必要な情報を入力して[New
+Pipeline]を押下して作成。Jobが実行される。 <img
+src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/runner-succeeded.png?raw=true" /></p>
+<h2 id="構築実行時のtrouble-shoot">構築、実行時のTrouble Shoot</h2>
+<h3 id="ジョブ実行時エラー">ジョブ実行時エラー</h3>
+<pre class="log"><code>ERROR: Preparation failed: check defaults error: no image specified and no default set in config</code></pre>
+<p><img src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/runner-system-failure.png?raw=true" /></p>
+<h4 id="対処-.gitlab-ci.ymlにimageの定義を追加">対処:
+.gitlab-ci.ymlにimageの定義を追加</h4>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">build-code-job</span><span class="kw">:</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">image</span><span class="kw">:</span><span class="at"> busybox:latest</span></span></code></pre></div>
+<h3
+id="secretが作成できない旨のエラー">Secretが作成できない旨のエラー</h3>
+<pre class="log"><code>ERROR: Error cleaning up secrets: resource name may not be empty
+ERROR: Job failed (system failure): prepare environment: setting up credentials: secrets is forbidden: User &quot;system:serviceaccount:gitlab-runner:default&quot; cannot create resource &quot;secrets&quot; in API group &quot;&quot; in the namespace &quot;default&quot;. Check https://docs.gitlab.com/runner/shells/#shell-profile-loading for more information</code></pre>
+<p><img src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/runner-system-failure2.png?raw=true" /></p>
+<h4 id="service-accountの権限不足">Service Accountの権限不足。</h4>
+<p><a
+href="https://docs.gitlab.com/runner/executors/kubernetes/#configure-runner-api-permissions">公式ドキュメント</a>を参考にRole,Rolebindingのリソースを作成。</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> <span class="at">-n</span> gitlab-runner apply <span class="at">-f</span> role.yaml</span></code></pre></div>
+<h3
+id="helperのイメージのpullに失敗する">Helperのイメージのpullに失敗する</h3>
+<pre class="log"><code>ERROR: Job failed: prepare environment: waiting for pod running: pulling image &quot;registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:x86_64-v18.2.1&quot; for container init-permissions: image pull failed: no matching manifest for linux/arm64/v8 in the manifest list entries. Check https://docs.gitlab.com/runner/shells/#shell-profile-loading for more information</code></pre>
+<h4
+id="config.tomlにhelperのイメージを設定">config.tomlにHelperのイメージを設定</h4>
+<p><a
+href="https://docs.gitlab.com/runner/configuration/advanced-configuration/#helper-image-configuration-for-kubernetes-on-arm">公式ドキュメント</a>を参考にconfig.tomlのHelperのイメージを変更。</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">[</span><span class="at">runners.kubernetes</span><span class="kw">]</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="at">    helper_image = &quot;registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:arm64-latest&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># config.tomlをコピー</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> <span class="at">-n</span> gitlab-runner cp config.toml gitlab-runner-785c445c6c-bpwxb:/etc/gitlab-runner/config.toml</span></code></pre></div>
