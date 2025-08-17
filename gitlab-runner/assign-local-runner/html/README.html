@@ -4,7 +4,7 @@ Runnerを実行する</h1>
 <p>SaaSのGitLabのShared Runnerを使おうとしたところ、Credit
 Cardの登録をしないと使えないようだった。</p>
 <pre class="log"><code>Credit card required to be on file in order to create a pipeline</code></pre>
-<p><img src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/unable-to-create-pipeline.png?raw=true" /></p>
+<p><img src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/assign-local-runner/README-images/unable-to-create-pipeline.png?raw=true" /></p>
 <p>なのでGitLab Runnerをローカルのminikubeに構築し、Project
 Runnerに割り当てて利用してみた。</p>
 <h2 id="gitlab-runnerの構築">GitLab Runnerの構築</h2>
@@ -16,18 +16,17 @@ Runnerに割り当てて利用してみた。</p>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">NAME</span>                             READY   STATUS    RESTARTS   AGE</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">gitlab-runner-785c445c6c-bpwxb</span>   1/1     Running   0          41s</span></code></pre></div>
-<br/>
 <h2
 id="ローカルgitlab-runnerをproject-runnerとして紐付ける">ローカルGitLab
-RunnerをProject Runnerとして紐付ける</h2>
+RUnnerをProject Runnerとして紐付ける</h2>
 <p>GitLabのWebUIで[Settings] &gt; [CI/CD] を選択。 [Runners]から[Create
 Project Runner]を押下。 <img
-src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/project-runner-create.png?raw=true" /></p>
+src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/assign-local-runner/README-images/project-runner-create.png?raw=true" /></p>
 <p>[Tags]のみ入力し、[Create Runner]を押下してRunnerを作成。 <img
-src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/project-runner-create2-2.png?raw=true" /></p>
+src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/assign-local-runner/README-images/project-runner-create2-2.png?raw=true" /></p>
 <p>Stepの手順通りに進め、ローカル環境に構築したGitLab Runnerと紐付ける。
 <img
-src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/project-runner-create-register-runner.png?raw=true" /></p>
+src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/assign-local-runner/README-images/project-runner-create-register-runner.png?raw=true" /></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># シェルを取得</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kubectl <span class="at">-n</span> gitlab-runner exec <span class="at">-it</span> deploy/gitlab-runner <span class="at">--</span> bash</span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RunnerとGitLabの紐付けを対話形式で実行。ExecutorはKubernetes。</span></span>
@@ -52,7 +51,7 @@ src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-lo
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Listing</span> configured runners                          ConfigFile=/etc/gitlab-runner/config.toml</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">sample</span>                                              Executor=kubernetes Token=glrt-buJ2X4c2CRTGJ608Cazo8W86MQpwOnFxY2g3CnQ6Mwp1OjZvcWl1Fw.01.1i1sr9dgz URL=https://gitlab.com</span></code></pre></div>
 <p>WebUIでも正しく割り当てられていること(緑丸マーク)が確認できる。 <img
-src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/project-runner-create3.png?raw=true" /></p>
+src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/assign-local-runner/README-images/project-runner-create3.png?raw=true" /></p>
 <h2 id="gitlab-ci.ymlの内容">.gitlab-ci.ymlの内容</h2>
 <p>シンプルにメッセージを出力するだけ。<br />
 [tags]に作成したProject RunnerのTagを設定する。</p>
@@ -71,11 +70,11 @@ class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb6-1"><a href="
 <p>[Build] &gt; [Pipelines] &gt; [New Pipeline]を押下。<br />
 [Run new pipeline]のページに必要な情報を入力して[New
 Pipeline]を押下して作成。Jobが実行される。 <img
-src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/runner-succeeded.png?raw=true" /></p>
+src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/assign-local-runner/README-images/runner-succeeded.png?raw=true" /></p>
 <h2 id="構築実行時のtrouble-shoot">構築、実行時のTrouble Shoot</h2>
 <h3 id="ジョブ実行時エラー">ジョブ実行時エラー</h3>
 <pre class="log"><code>ERROR: Preparation failed: check defaults error: no image specified and no default set in config</code></pre>
-<p><img src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/runner-system-failure.png?raw=true" /></p>
+<p><img src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/assign-local-runner/README-images/runner-system-failure.png?raw=true" /></p>
 <h4 id="対処-.gitlab-ci.ymlにimageの定義を追加">対処:
 .gitlab-ci.ymlにimageの定義を追加</h4>
 <div class="sourceCode" id="cb8"><pre
@@ -85,7 +84,7 @@ class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb8-1"><a href="
 id="secretが作成できない旨のエラー">Secretが作成できない旨のエラー</h3>
 <pre class="log"><code>ERROR: Error cleaning up secrets: resource name may not be empty
 ERROR: Job failed (system failure): prepare environment: setting up credentials: secrets is forbidden: User &quot;system:serviceaccount:gitlab-runner:default&quot; cannot create resource &quot;secrets&quot; in API group &quot;&quot; in the namespace &quot;default&quot;. Check https://docs.gitlab.com/runner/shells/#shell-profile-loading for more information</code></pre>
-<p><img src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/integration-local-runner/README-images/runner-system-failure2.png?raw=true" /></p>
+<p><img src=https://github.com/d4y8/learning-labs/blob/main/gitlab-runner/assign-local-runner/README-images/runner-system-failure2.png?raw=true" /></p>
 <h4 id="service-accountの権限不足">Service Accountの権限不足。</h4>
 <p><a
 href="https://docs.gitlab.com/runner/executors/kubernetes/#configure-runner-api-permissions">公式ドキュメント</a>を参考にRole,Rolebindingのリソースを作成。</p>
